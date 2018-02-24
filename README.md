@@ -8,8 +8,8 @@ Unity presets browser editor window.
 ## Summary
 Unity 2018.1 introduced [Presets](https://docs.unity3d.com/2018.1/Documentation/ScriptReference/Presets.Preset.html) feature
 to improve editor workflow. While presets can be found via project window search, it's not possible to filter presets by type or
-determine preset asset validity. Presets browser editor window addresses this issues and serves as central place to access all
-project presets.
+determine preset asset validity in project window. Presets browser editor window addresses this issues and serves as central
+place to access all project presets.
 
 ## How to use
 Add this repository as submodule under `Assets` folder or download it and put to `Assets` folder of your Unity project. Access
@@ -26,4 +26,4 @@ Use `Filter by preset type` toggle to control filtering of listed preset assets:
 listed preset are not filtered and type selection popup is not shown.
 * Toggle off - no filtering of listed preset assets by preset type
 
-Click preset asset object field to ping object in project window. Click "Select" button to select preset asset in project window.
+Click preset asset object field to ping object in project window. Click `Select` button to select preset asset in project window.
