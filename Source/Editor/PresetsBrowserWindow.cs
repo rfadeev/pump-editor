@@ -106,6 +106,7 @@ namespace PresetsBrowser
         private void DrawFilterByType()
         {
             var typeNames = m_presetTargetFullTypeNames.ToArray<string>();
+            Array.Sort(typeNames);
             var index = Array.IndexOf(typeNames, m_filterPresetType);
             index = EditorGUILayout.Popup("Preset type", index, typeNames);
             if (index >= 0 && index < typeNames.Length)
