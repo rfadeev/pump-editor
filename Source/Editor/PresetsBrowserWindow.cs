@@ -87,13 +87,7 @@ namespace PresetsBrowser
             }
 
             FilterByValidity();
-
-            m_scrollPosition = EditorGUILayout.BeginScrollView(m_scrollPosition);
-            foreach (var preset in m_presetsToDraw)
-            {
-                EditorGUILayout.ObjectField(preset, null, false);
-            }
-            EditorGUILayout.EndScrollView();
+            DrawPresets();
         }
 
         private void DrawFilterByType()
@@ -137,6 +131,23 @@ namespace PresetsBrowser
                 case ONLY_INVALID_VALIDITY_TOOLBAR_INDEX:
                     m_presetsToDraw.RemoveAll(p => p.IsValid());
                     break;
+            }
+        }
+
+        private void DrawPresets()
+        {
+            if (m_presetsToDraw.Count != 0)
+            {
+                m_scrollPosition = EditorGUILayout.BeginScrollView(m_scrollPosition);
+                foreach (var preset in m_presetsToDraw)
+                {
+                    EditorGUILayout.ObjectField(preset, null, false);
+                }
+                EditorGUILayout.EndScrollView();
+            }
+            else
+            {
+                EditorGUILayout.LabelField("No presets.");
             }
         }
     }
