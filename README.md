@@ -1,5 +1,9 @@
-# presets-browser
+[![license](https://img.shields.io/github/license/rfadeev/presets-browser.svg)](https://github.com/rfadeev/presets-browser/blob/master/LICENSE.md)
+
+# Presets browser
 Unity presets browser editor window.
+
+![screencast](Documentation/presets-browser-demo.gif)
 
 ## Summary
 Unity 2018.1 introduced [Presets](https://docs.unity3d.com/2018.1/Documentation/ScriptReference/Presets.Preset.html) feature
@@ -17,7 +21,7 @@ Following options are supported:
 * `Only Valid` - show only valid preset assets
 * `Only Invalid` - show only not valid preset assets
 
-Use "Filter by preset type" toggle to control filtering of listed preset assets:
+Use `Filter by preset type` toggle to control filtering of listed preset assets:
 * Toggle on - filter listed preset assets by target preset type selected via popup. For `Only Invalid` validity toolbar option
 listed preset are not filtered and type selection popup is not shown.
 * Toggle off - no filtering of listed preset assets by preset type
