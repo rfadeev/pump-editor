@@ -9,12 +9,24 @@ namespace PresetsBrowser
 {
     public class PresetsBrowserWindow : EditorWindow
     {
+        private static readonly string[] VALIDITY_TOOLBAR_STRINGS = new string[3]
+        {
+            "All",
+            "Only Valid",
+            "Only Invalid",
+        };
+
+        private const int ALL_VALIDITY_TOOLBAR_INDEX = 0;
+        private const int ONLY_VALID_VALIDITY_TOOLBAR_INDEX = 1;
+        private const int ONLY_INVALID_VALIDITY_TOOLBAR_INDEX = 2;
+
         private List<Preset> m_presets = new List<Preset>();
         private HashSet<string> m_presetTargetFullTypeNames = new HashSet<string>();
         private List<Preset> m_presetsToDraw = new List<Preset>();
+        private int m_validityToolbarIndex;
         private bool m_filterByPresetType = false;
         private Vector2 m_scrollPosition;
-        private string m_filterPresetType;
+        private string m_filterPresetType = null;
 
         [MenuItem("Window/Presets Browser")]
         private static void Init()
@@ -37,12 +49,17 @@ namespace PresetsBrowser
                 var preset = AssetDatabase.LoadAssetAtPath<Preset>(presetPath);
                 m_presets.Add(preset);
 
+                // If preset is not valid, GetTargetFullTypeName return empty string
                 var targetFullTypeName = preset.GetTargetFullTypeName();
-                m_presetTargetFullTypeNames.Add(targetFullTypeName);
+                if (targetFullTypeName != String.Empty)
+                {
+                    m_presetTargetFullTypeNames.Add(targetFullTypeName);
+                }
             }
 
-            m_filterByPresetType = EditorGUILayout.Toggle("Filter by preset type", m_filterByPresetType);
+            m_validityToolbarIndex = GUILayout.Toolbar(m_validityToolbarIndex, VALIDITY_TOOLBAR_STRINGS);
 
+            m_filterByPresetType = EditorGUILayout.Toggle("Filter by preset type", m_filterByPresetType);
             if (m_filterByPresetType)
             {
                 var typeNames = m_presetTargetFullTypeNames.ToArray<string>();
@@ -55,11 +72,15 @@ namespace PresetsBrowser
 
                     foreach (var preset in m_presets)
                     {
+                        // If preset is not valid, GetTargetFullTypeName return empty string
                         var targetFullTypeName = preset.GetTargetFullTypeName();
-                        var presetType = TypeUtility.GetType(targetFullTypeName);
-                        if (selectedPresetType == presetType)
+                        if (targetFullTypeName != String.Empty)
                         {
-                            m_presetsToDraw.Add(preset);
+                            var presetType = TypeUtility.GetType(targetFullTypeName);
+                            if (selectedPresetType == presetType)
+                            {
+                                m_presetsToDraw.Add(preset);
+                            }
                         }
                     }
                 }
@@ -73,12 +94,29 @@ namespace PresetsBrowser
                 m_presetsToDraw.AddRange(m_presets);
             }
 
+            FilterByValidity();
+
             m_scrollPosition = EditorGUILayout.BeginScrollView(m_scrollPosition);
             foreach (var preset in m_presetsToDraw)
             {
                 EditorGUILayout.ObjectField(preset, null, false);
             }
             EditorGUILayout.EndScrollView();
+        }
+
+        private void FilterByValidity()
+        {
+            switch (m_validityToolbarIndex)
+            {
+                case ALL_VALIDITY_TOOLBAR_INDEX:
+                    break;
+                case ONLY_VALID_VALIDITY_TOOLBAR_INDEX:
+                    m_presetsToDraw.RemoveAll(p => !p.IsValid());
+                    break;
+                case ONLY_INVALID_VALIDITY_TOOLBAR_INDEX:
+                    m_presetsToDraw.RemoveAll(p => p.IsValid());
+                    break;
+            }
         }
     }
 }
