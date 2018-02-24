@@ -107,7 +107,7 @@ namespace PresetsBrowser
         {
             var typeNames = m_presetTargetFullTypeNames.ToArray<string>();
             var index = Array.IndexOf(typeNames, m_filterPresetType);
-            index = EditorGUILayout.Popup(index, typeNames);
+            index = EditorGUILayout.Popup("Preset type", index, typeNames);
             if (index >= 0 && index < typeNames.Length)
             {
                 m_filterPresetType = typeNames[index];
