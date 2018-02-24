@@ -44,6 +44,19 @@ namespace PresetsBrowser
             return targetFullTypeName != String.Empty;
         }
 
+        private static void DrawPresetItem(Preset preset)
+        {
+            EditorGUILayout.BeginHorizontal();
+
+            EditorGUILayout.ObjectField(preset, null, false);
+            if (GUILayout.Button("Select", GUILayout.Width(100)))
+            {
+                Selection.activeObject = preset;
+             }
+
+            EditorGUILayout.EndHorizontal();
+        }
+
         private void OnGUI()
         {
             m_presets.Clear();
@@ -141,7 +154,7 @@ namespace PresetsBrowser
                 m_scrollPosition = EditorGUILayout.BeginScrollView(m_scrollPosition);
                 foreach (var preset in m_presetsToDraw)
                 {
-                    EditorGUILayout.ObjectField(preset, null, false);
+                    DrawPresetItem(preset);
                 }
                 EditorGUILayout.EndScrollView();
             }
