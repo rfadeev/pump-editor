@@ -36,6 +36,13 @@ namespace PresetsBrowser
             window.Show();
         }
 
+        // If preset is not valid, GetTargetFullTypeName returns empty string
+        private static bool TryGetValidPresetTargetFullTypeName(Preset preset, out string targetFullTypeName)
+        {
+            targetFullTypeName = preset.GetTargetFullTypeName();
+            return targetFullTypeName != String.Empty;
+        }
+
         private void OnGUI()
         {
             m_presets.Clear();
@@ -49,9 +56,8 @@ namespace PresetsBrowser
                 var preset = AssetDatabase.LoadAssetAtPath<Preset>(presetPath);
                 m_presets.Add(preset);
 
-                // If preset is not valid, GetTargetFullTypeName return empty string
-                var targetFullTypeName = preset.GetTargetFullTypeName();
-                if (targetFullTypeName != String.Empty)
+                string targetFullTypeName;
+                if (TryGetValidPresetTargetFullTypeName(preset, out targetFullTypeName))
                 {
                     m_presetTargetFullTypeNames.Add(targetFullTypeName);
                 }
@@ -101,9 +107,8 @@ namespace PresetsBrowser
 
                 foreach (var preset in m_presets)
                 {
-                    // If preset is not valid, GetTargetFullTypeName return empty string
-                    var targetFullTypeName = preset.GetTargetFullTypeName();
-                    if (targetFullTypeName != String.Empty)
+                    string targetFullTypeName;
+                    if (TryGetValidPresetTargetFullTypeName(preset, out targetFullTypeName))
                     {
                         var presetType = TypeUtility.GetType(targetFullTypeName);
                         if (selectedPresetType == presetType)
