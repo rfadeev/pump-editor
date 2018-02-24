@@ -59,34 +59,19 @@ namespace PresetsBrowser
 
             m_validityToolbarIndex = GUILayout.Toolbar(m_validityToolbarIndex, VALIDITY_TOOLBAR_STRINGS);
 
-            m_filterByPresetType = EditorGUILayout.Toggle("Filter by preset type", m_filterByPresetType);
-            if (m_filterByPresetType)
+            // Do not show filter by preset type for invalid presets since for them
+            // coressponding class is not present:
+            // https://forum.unity.com/threads/presets-feature.491263/#post-3210492
+            if (m_validityToolbarIndex != ONLY_INVALID_VALIDITY_TOOLBAR_INDEX)
             {
-                var typeNames = m_presetTargetFullTypeNames.ToArray<string>();
-                var index = Array.IndexOf(typeNames, m_filterPresetType);
-                index = EditorGUILayout.Popup(index, typeNames);
-                if (index >= 0 && index < typeNames.Length)
+                m_filterByPresetType = EditorGUILayout.Toggle("Filter by preset type", m_filterByPresetType);
+                if (m_filterByPresetType)
                 {
-                    m_filterPresetType = typeNames[index];
-                    var selectedPresetType = TypeUtility.GetType(m_filterPresetType);
-
-                    foreach (var preset in m_presets)
-                    {
-                        // If preset is not valid, GetTargetFullTypeName return empty string
-                        var targetFullTypeName = preset.GetTargetFullTypeName();
-                        if (targetFullTypeName != String.Empty)
-                        {
-                            var presetType = TypeUtility.GetType(targetFullTypeName);
-                            if (selectedPresetType == presetType)
-                            {
-                                m_presetsToDraw.Add(preset);
-                            }
-                        }
-                    }
+                    DrawFilterByType();
                 }
                 else
                 {
-                    m_filterPresetType = null;
+                    m_presetsToDraw.AddRange(m_presets);
                 }
             }
             else
@@ -102,6 +87,36 @@ namespace PresetsBrowser
                 EditorGUILayout.ObjectField(preset, null, false);
             }
             EditorGUILayout.EndScrollView();
+        }
+
+        private void DrawFilterByType()
+        {
+            var typeNames = m_presetTargetFullTypeNames.ToArray<string>();
+            var index = Array.IndexOf(typeNames, m_filterPresetType);
+            index = EditorGUILayout.Popup(index, typeNames);
+            if (index >= 0 && index < typeNames.Length)
+            {
+                m_filterPresetType = typeNames[index];
+                var selectedPresetType = TypeUtility.GetType(m_filterPresetType);
+
+                foreach (var preset in m_presets)
+                {
+                    // If preset is not valid, GetTargetFullTypeName return empty string
+                    var targetFullTypeName = preset.GetTargetFullTypeName();
+                    if (targetFullTypeName != String.Empty)
+                    {
+                        var presetType = TypeUtility.GetType(targetFullTypeName);
+                        if (selectedPresetType == presetType)
+                        {
+                            m_presetsToDraw.Add(preset);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                m_filterPresetType = null;
+            }
         }
 
         private void FilterByValidity()
