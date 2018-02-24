@@ -32,7 +32,8 @@ namespace PresetsBrowser
         private static void Init()
         {
             var window = EditorWindow.GetWindow<PresetsBrowserWindow>();
-            window.titleContent = new GUIContent("Presets");
+            var icon = EditorGUIUtility.Load("preset.context") as Texture2D;
+            window.titleContent = new GUIContent("Presets", icon);
             window.Show();
         }
 
