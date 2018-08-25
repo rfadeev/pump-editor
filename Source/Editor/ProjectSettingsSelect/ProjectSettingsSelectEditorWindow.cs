@@ -5,6 +5,8 @@ namespace PumpEditor
 {
     public class ProjectSettingsSelectEditorWindow : EditorWindow
     {
+        private Vector2 scrollPosition;
+
         [MenuItem("Window/Pump Editor/Project Settings Select")]
         private static void Init()
         {
@@ -25,6 +27,8 @@ namespace PumpEditor
 
         private void OnGUI()
         {
+            scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
+
             DrawProjectSettingsButton("Input");
             DrawProjectSettingsButton("Tags and Layers");
             DrawProjectSettingsButton("Audio");
@@ -38,6 +42,8 @@ namespace PumpEditor
             DrawProjectSettingsButton("Editor");
             DrawProjectSettingsButton("Script Execution Order");
             DrawProjectSettingsButton("Preset Manager");
+
+            EditorGUILayout.EndScrollView();
         }
     }
 }
