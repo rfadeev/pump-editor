@@ -40,6 +40,11 @@ namespace PumpEditor
             EditorGUILayout.EndScrollView();
         }
 
+        private void OnSelectionChange()
+        {
+            Repaint();
+        }
+
         private void ProjectSettingsButtonsGUI()
         {
             EditorGUILayout.BeginVertical();
