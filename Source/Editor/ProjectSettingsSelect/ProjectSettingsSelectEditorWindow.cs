@@ -28,6 +28,13 @@ namespace PumpEditor
             }
         }
 
+        private static void DrawTargetTitle(string title)
+        {
+            EditorGUILayout.BeginHorizontal(GUI.skin.box);
+            EditorGUILayout.LabelField(title);
+            EditorGUILayout.EndHorizontal();
+        }
+
         private void OnGUI()
         {
             windowScrollPosition = EditorGUILayout.BeginScrollView(windowScrollPosition);
@@ -48,9 +55,11 @@ namespace PumpEditor
         private void ProjectSettingsButtonsGUI()
         {
             EditorGUILayout.BeginVertical();
+            EditorGUILayout.Space();
             showSettingsInspector = EditorGUILayout.Toggle("Show Settings Inspector", showSettingsInspector);
+            EditorGUILayout.Space();
             buttonsScrollPosition = EditorGUILayout.BeginScrollView(buttonsScrollPosition);
-            EditorGUILayout.BeginVertical();
+            EditorGUILayout.BeginVertical(GUI.skin.box);
 
             DrawProjectSettingsButton("Input");
             DrawProjectSettingsButton("Tags and Layers");
@@ -82,12 +91,17 @@ namespace PumpEditor
             if (selectedObject == null
                 || !ProjectSettingsTypeHelper.IsProjectSettingsType(selectedObject))
             {
+                EditorGUILayout.BeginVertical();
+                EditorGUILayout.Space();
                 EditorGUILayout.HelpBox("No project settings to inspect.", MessageType.Info);
+                EditorGUILayout.EndVertical();
                 return;
             }
 
             inspectorScrollPosition = EditorGUILayout.BeginScrollView(inspectorScrollPosition);
             EditorGUILayout.Space();
+            var targetTitle = ProjectSettingsTypeHelper.GetProjectSettingsTargetTitle(selectedObject);
+            DrawTargetTitle(targetTitle);
             EditorGUILayout.BeginVertical();
 
             Editor editor = Editor.CreateEditor(selectedObject);

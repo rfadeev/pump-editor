@@ -64,5 +64,65 @@ namespace PumpEditor
                 || objType == monoManagerType
                 || objType == presetManagerType;
         }
+
+        // Ideal solution would be getting title via
+        // ProjectSettingsBaseEditor's targetTitle property.
+        public static string GetProjectSettingsTargetTitle(UnityEngine.Object obj)
+        {
+            var objType = obj.GetType();
+            if (objType == inputManagerType)
+            {
+                return "InputManager";
+            }
+            else if (objType == tagManagerType)
+            {
+                return "Tags & Layers";
+            }
+            else if (objType == audioManagerType)
+            {
+                return "AudioManager";
+            }
+            else if (objType == timeManagerType)
+            {
+                return "TimeManager";
+            }
+            else if (objType == playerSettingsType)
+            {
+                return "PlayerSettings";
+            }
+            else if (objType == physicsManagerType)
+            {
+                return "PhysicsManager";
+            }
+            else if (objType == physics2DSettingsType)
+            {
+                return "Physics2DSettings";
+            }
+            else if (objType == qualitySettingsType)
+            {
+                return "QualitySettings";
+            }
+            else if (objType == graphicsSettingsType)
+            {
+                return "GraphicsSettings";
+            }
+            else if (objType == networkManagerType)
+            {
+                return "NetworkManager";
+            }
+            else if (objType == editorSettingsType)
+            {
+                return "Editor Settings";
+            }
+            else if (objType == monoManagerType)
+            {
+                return "Script Execution Order";
+            }
+            else if (objType == presetManagerType)
+            {
+                return "PresetManager";
+            }
+            return null;
+        }
     }
 }
