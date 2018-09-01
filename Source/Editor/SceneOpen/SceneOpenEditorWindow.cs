@@ -34,7 +34,7 @@ namespace PumpEditor
         {
             foreach (var scenePath in scenePaths)
             {
-                if (GUILayout.Button(scenePath))
+                if (GUILayout.Button(scenePath, PumpEditorStyles.ButtonTextMiddleLeft))
                 {
                     if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
                     {
