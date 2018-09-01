@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -27,6 +28,20 @@ namespace PumpEditor
             var icon = EditorGUIUtility.Load("buildsettings.editor.small") as Texture2D;
             window.titleContent = new GUIContent("Scenes", icon);
             window.Show();
+        }
+
+        private static void OpenSceneButtonsGUI(IEnumerable<string> scenePaths)
+        {
+            foreach (var scenePath in scenePaths)
+            {
+                if (GUILayout.Button(scenePath))
+                {
+                    if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
+                    {
+                        EditorSceneManager.OpenScene(scenePath);
+                    }
+                }
+            }
         }
 
         private void OnGUI()
@@ -63,17 +78,11 @@ namespace PumpEditor
             windowScrollPosition = EditorGUILayout.BeginScrollView(windowScrollPosition);
 
             var sceneAssetGuids = AssetDatabase.FindAssets("t:scene");
-            foreach (var sceneAssetGuid in sceneAssetGuids)
+            var scenePaths = sceneAssetGuids.Select(sceneAssetGuid =>
             {
-                var sceneAssetPath = AssetDatabase.GUIDToAssetPath(sceneAssetGuid);
-                if (GUILayout.Button(sceneAssetPath))
-                {
-                    if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
-                    {
-                        EditorSceneManager.OpenScene(sceneAssetPath);
-                    }
-                }
-            }
+                return AssetDatabase.GUIDToAssetPath(sceneAssetGuid);
+            });
+            OpenSceneButtonsGUI(scenePaths);
 
             EditorGUILayout.EndScrollView();
         }
@@ -89,16 +98,7 @@ namespace PumpEditor
             // Assets folder at path start and without .unity extension. But path
             // property returns full project path like Assets/Scenes/MyScene.unity
             var scenePaths = EditorBuildSettings.scenes.Select(s => s.path);
-            foreach (var scenePath in scenePaths)
-            {
-                if (GUILayout.Button(scenePath))
-                {
-                    if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
-                    {
-                        EditorSceneManager.OpenScene(scenePath);
-                    }
-                }
-            }
+            OpenSceneButtonsGUI(scenePaths);
 
             EditorGUILayout.EndScrollView();
         }
