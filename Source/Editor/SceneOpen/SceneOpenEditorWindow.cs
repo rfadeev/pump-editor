@@ -32,6 +32,12 @@ namespace PumpEditor
 
         private static void OpenSceneButtonsGUI(IEnumerable<string> scenePaths)
         {
+            if (scenePaths.Count() == 0)
+            {
+                EditorGUILayout.HelpBox("No scenes to open.", MessageType.Info);
+                return;
+            }
+
             foreach (var scenePath in scenePaths)
             {
                 if (GUILayout.Button(scenePath, PumpEditorStyles.ButtonTextMiddleLeft))
