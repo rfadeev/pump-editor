@@ -22,6 +22,11 @@ namespace PumpEditor
             window.Show();
         }
 
+        public void ReloadTreeView()
+        {
+            treeView.Reload();
+        }
+
         private void DoToolbar()
         {
             GUILayout.BeginHorizontal(EditorStyles.toolbar);
@@ -55,6 +60,13 @@ namespace PumpEditor
             var instanceId = selectedIDs[0];
             var assetPath = AssetDatabase.GetAssetPath(instanceId);
             var asset = AssetDatabase.LoadAssetAtPath<Object>(assetPath);
+
+            // If asset is deleted, selectedIDs are not reset so need to
+            // check that load asset at path succeeded.
+            if (asset == null)
+            {
+                return;
+            }
 
             using (new EditorGUILayout.HorizontalScope())
             {
