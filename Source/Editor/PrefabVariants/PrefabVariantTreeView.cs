@@ -73,8 +73,6 @@ namespace PumpEditor
 
         protected override void RowGUI(RowGUIArgs args)
         {
-            var rowRect = args.rowRect;
-
             var assetIconRect = args.rowRect;
             assetIconRect.x += GetContentIndent(args.item);
             assetIconRect.width = AssetIconWidth;

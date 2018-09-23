@@ -64,6 +64,15 @@ namespace PumpEditor
                 }
             }
 
+            var variantBase = PrefabUtility.GetCorrespondingObjectFromSource(asset);
+            if (variantBase != null)
+            {
+                using (new EditorGUI.DisabledGroupScope(true))
+                {
+                    EditorGUILayout.ObjectField("Base", variantBase, typeof(GameObject), false);
+                }
+            }
+
             EditorGUILayout.Space();
             GUILayout.EndVertical();
         }
