@@ -86,6 +86,12 @@ namespace PumpEditor
         {
             DoToolbar();
             DoTreeView();
+            DoAssetInfo();
+        }
+
+        private static class Styles
+        {
+            public static readonly GUIStyle inspectorBigTitleInner = "IN BigTitle inner";
         }
     }
 }
