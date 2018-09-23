@@ -66,6 +66,11 @@ namespace PumpEditor
             return root;
         }
 
+        protected override bool CanMultiSelect(TreeViewItem item)
+        {
+            return false;
+        }
+
         protected override void RowGUI(RowGUIArgs args)
         {
             var rowRect = args.rowRect;

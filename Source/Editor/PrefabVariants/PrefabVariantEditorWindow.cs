@@ -37,6 +37,37 @@ namespace PumpEditor
             treeView.OnGUI(rect);
         }
 
+        private void DoAssetInfo()
+        {
+            var selectedIDs = treeViewState.selectedIDs;
+            if (selectedIDs.Count == 0)
+            {
+                return;
+            }
+
+            Debug.Assert(selectedIDs.Count == 1);
+
+            GUILayout.BeginVertical(Styles.inspectorBigTitleInner);
+            EditorGUILayout.Space();
+
+            // TODO: [rfadeev] - Migrate to separate type instead of
+            // plain TreeViewItem and get instance id from tree model.
+            var instanceId = selectedIDs[0];
+            var assetPath = AssetDatabase.GetAssetPath(instanceId);
+            var asset = AssetDatabase.LoadAssetAtPath<Object>(assetPath);
+
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                using (new EditorGUI.DisabledGroupScope(true))
+                {
+                    EditorGUILayout.ObjectField("Prefab Asset", asset, typeof(GameObject), false);
+                }
+            }
+
+            EditorGUILayout.Space();
+            GUILayout.EndVertical();
+        }
+
         private void OnEnable()
         {
             // Check if we already had a serialized view state (state
