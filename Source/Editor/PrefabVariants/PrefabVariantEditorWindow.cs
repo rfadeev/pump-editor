@@ -18,7 +18,8 @@ namespace PumpEditor
         private static void ShowWindow()
         {
             var window = GetWindow<PrefabVariantEditorWindow>();
-            window.titleContent = new GUIContent("Prefab Variants");
+            var icon = EditorGUIUtility.FindTexture("PrefabVariant Icon");
+            window.titleContent = new GUIContent("Prefab Variants", icon);
             window.Show();
         }
 
