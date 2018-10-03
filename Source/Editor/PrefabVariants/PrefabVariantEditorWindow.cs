@@ -52,9 +52,6 @@ namespace PumpEditor
 
             Debug.Assert(selectedIDs.Count == 1);
 
-            GUILayout.BeginVertical(Styles.inspectorBigTitleInner);
-            EditorGUILayout.Space();
-
             var item = treeView.FindItem(selectedIDs[0]);
 
             // If asset is deleted, selectedIDs are not reset so need to
@@ -65,6 +62,9 @@ namespace PumpEditor
             }
 
             var asset = item.PrefabAsset;
+
+            GUILayout.BeginVertical(Styles.inspectorBigTitleInner);
+            EditorGUILayout.Space();
 
             using (new EditorGUILayout.HorizontalScope())
             {
