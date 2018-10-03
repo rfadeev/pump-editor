@@ -55,18 +55,16 @@ namespace PumpEditor
             GUILayout.BeginVertical(Styles.inspectorBigTitleInner);
             EditorGUILayout.Space();
 
-            // TODO: [rfadeev] - Migrate to separate type instead of
-            // plain TreeViewItem and get instance id from tree model.
-            var instanceId = selectedIDs[0];
-            var assetPath = AssetDatabase.GetAssetPath(instanceId);
-            var asset = AssetDatabase.LoadAssetAtPath<Object>(assetPath);
+            var item = treeView.FindItem(selectedIDs[0]);
 
             // If asset is deleted, selectedIDs are not reset so need to
-            // check that load asset at path succeeded.
-            if (asset == null)
+            // check that find item by id succeeded.
+            if (item == null)
             {
                 return;
             }
+
+            var asset = item.PrefabAsset;
 
             using (new EditorGUILayout.HorizontalScope())
             {
