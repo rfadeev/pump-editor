@@ -22,6 +22,50 @@ namespace PumpEditor
             window.Show();
         }
 
+        private static TreeViewItem GetRoot()
+        {
+            var root = new TreeViewItem
+            {
+                id = 0,
+                depth = -1
+            };
+
+            var inheritanceChains = PrefabInheritanceHelper.GetInheritanceChains();
+            foreach (var inheritanceChain in inheritanceChains)
+            {
+                if (inheritanceChain.Count == 0)
+                {
+                    continue;
+                }
+
+                var prefabAsset = inheritanceChain[0];
+                var prefabItem = new TreeViewItem
+                {
+                    id = prefabAsset.GetInstanceID(),
+                    displayName = prefabAsset.name
+                };
+                root.AddChild(prefabItem);
+
+                var i = 1;
+                while (i < inheritanceChain.Count)
+                {
+                    var nestedPrefabAsset = inheritanceChain[i];
+                    var nestedPrefabItem = new TreeViewItem
+                    {
+                        id = nestedPrefabAsset.GetInstanceID(),
+                        displayName = nestedPrefabAsset.name
+                    };
+
+                    prefabItem.AddChild(nestedPrefabItem);
+                    prefabItem = nestedPrefabItem;
+
+                    ++i;
+                }
+            }
+
+            return root;
+        }
+
         public void ReloadTreeView()
         {
             treeView.Reload();
@@ -98,7 +142,8 @@ namespace PumpEditor
                 treeViewState = new TreeViewState();
             }
 
-            treeView = new PrefabVariantTreeView(treeViewState);
+            var root = GetRoot();
+            treeView = new PrefabVariantTreeView(treeViewState, root);
             searchField = new SearchField();
             searchField.downOrUpArrowKeyPressed += treeView.SetFocusAndEnsureSelectedItem;
         }
