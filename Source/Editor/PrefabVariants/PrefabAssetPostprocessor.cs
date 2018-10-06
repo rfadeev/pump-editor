@@ -1,4 +1,6 @@
-﻿using System;
+﻿#if UNITY_2018_3_OR_NEWER
+
+using System;
 using UnityEditor;
 using UnityEngine;
 
@@ -36,3 +38,5 @@ namespace PumpEditor
         }
     }
 }
+
+#endif

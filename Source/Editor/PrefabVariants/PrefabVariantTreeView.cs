@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿#if UNITY_2018_3_OR_NEWER
+
 using UnityEditor;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
@@ -104,3 +105,5 @@ namespace PumpEditor
         }
     }
 }
+
+#endif
