@@ -46,7 +46,7 @@ namespace PumpEditor
             var inheritanceChains = PrefabInheritanceHelper.GetInheritanceChains();
             foreach (var inheritanceChain in inheritanceChains)
             {
-                if (inheritanceChain.Count == 0)
+                if (inheritanceChain.Count == 1)
                 {
                     continue;
                 }
