@@ -110,7 +110,7 @@ namespace PumpEditor
 
         private void DrawFilterByType()
         {
-            var typeNames = m_presetTargetFullTypeNames.ToArray<string>();
+            var typeNames = m_presetTargetFullTypeNames.ToArray();
             Array.Sort(typeNames);
             var index = Array.IndexOf(typeNames, m_filterPresetType);
             index = EditorGUILayout.Popup("Preset type", index, typeNames);
