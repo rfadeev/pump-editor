@@ -13,7 +13,7 @@ place to access all project presets.
 
 ## How to use
 Add this repository as submodule under `Assets` folder or download it and put to `Assets` folder of your Unity project. Access
-presets browser via Unity toolbar: `Window/Presets Browser`.
+presets browser via Unity toolbar: **Window -> Pump Editor -> Presets Browser**.
 
 Preset can be invalid if you delete the class it was referencing. To filter presets by validity use validity toolbar.
 Following options are supported:

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace PresetsBrowser
+namespace PumpEditor
 {
     public static class TypeUtility
     {

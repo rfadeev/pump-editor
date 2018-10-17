@@ -7,7 +7,7 @@ using UnityEditor;
 using UnityEditor.Presets;
 using UnityEngine;
 
-namespace PresetsBrowser
+namespace PumpEditor
 {
     public class PresetsBrowserWindow : EditorWindow
     {
@@ -30,7 +30,7 @@ namespace PresetsBrowser
         private Vector2 m_scrollPosition;
         private string m_filterPresetType = null;
 
-        [MenuItem("Window/Presets Browser")]
+        [MenuItem("Window/Pump Editor/Presets Browser")]
         private static void Init()
         {
             var window = EditorWindow.GetWindow<PresetsBrowserWindow>();
