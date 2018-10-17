@@ -22,13 +22,13 @@ namespace PumpEditor
         private const int ONLY_VALID_VALIDITY_TOOLBAR_INDEX = 1;
         private const int ONLY_INVALID_VALIDITY_TOOLBAR_INDEX = 2;
 
-        private List<Preset> m_presets = new List<Preset>();
-        private HashSet<string> m_presetTargetFullTypeNames = new HashSet<string>();
-        private List<Preset> m_presetsToDraw = new List<Preset>();
-        private int m_validityToolbarIndex;
-        private bool m_filterByPresetType = false;
-        private Vector2 m_scrollPosition;
-        private string m_filterPresetType = null;
+        private List<Preset> presets = new List<Preset>();
+        private HashSet<string> presetTargetFullTypeNames = new HashSet<string>();
+        private List<Preset> presetsToDraw = new List<Preset>();
+        private int validityToolbarIndex;
+        private bool filterByPresetType = false;
+        private Vector2 scrollPosition;
+        private string filterPresetType = null;
 
         [MenuItem("Window/Pump Editor/Presets Browser")]
         private static void Init()
@@ -64,44 +64,44 @@ namespace PumpEditor
 
         private void OnGUI()
         {
-            m_presets.Clear();
-            m_presetTargetFullTypeNames.Clear();
-            m_presetsToDraw.Clear();
+            presets.Clear();
+            presetTargetFullTypeNames.Clear();
+            presetsToDraw.Clear();
 
             var presetGuids = AssetDatabase.FindAssets("t:preset");
             foreach (var presetGuid in presetGuids)
             {
                 var presetPath = AssetDatabase.GUIDToAssetPath(presetGuid);
                 var preset = AssetDatabase.LoadAssetAtPath<Preset>(presetPath);
-                m_presets.Add(preset);
+                presets.Add(preset);
 
                 string targetFullTypeName;
                 if (TryGetValidPresetTargetFullTypeName(preset, out targetFullTypeName))
                 {
-                    m_presetTargetFullTypeNames.Add(targetFullTypeName);
+                    presetTargetFullTypeNames.Add(targetFullTypeName);
                 }
             }
 
-            m_validityToolbarIndex = GUILayout.Toolbar(m_validityToolbarIndex, VALIDITY_TOOLBAR_STRINGS);
+            validityToolbarIndex = GUILayout.Toolbar(validityToolbarIndex, VALIDITY_TOOLBAR_STRINGS);
 
             // Do not show filter by preset type for invalid presets since for them
             // coressponding class is not present:
             // https://forum.unity.com/threads/presets-feature.491263/#post-3210492
-            if (m_validityToolbarIndex != ONLY_INVALID_VALIDITY_TOOLBAR_INDEX)
+            if (validityToolbarIndex != ONLY_INVALID_VALIDITY_TOOLBAR_INDEX)
             {
-                m_filterByPresetType = EditorGUILayout.Toggle("Filter by preset type", m_filterByPresetType);
-                if (m_filterByPresetType)
+                filterByPresetType = EditorGUILayout.Toggle("Filter by preset type", filterByPresetType);
+                if (filterByPresetType)
                 {
                     DrawFilterByType();
                 }
                 else
                 {
-                    m_presetsToDraw.AddRange(m_presets);
+                    presetsToDraw.AddRange(presets);
                 }
             }
             else
             {
-                m_presetsToDraw.AddRange(m_presets);
+                presetsToDraw.AddRange(presets);
             }
 
             FilterByValidity();
@@ -110,16 +110,16 @@ namespace PumpEditor
 
         private void DrawFilterByType()
         {
-            var typeNames = m_presetTargetFullTypeNames.ToArray();
+            var typeNames = presetTargetFullTypeNames.ToArray();
             Array.Sort(typeNames);
-            var index = Array.IndexOf(typeNames, m_filterPresetType);
+            var index = Array.IndexOf(typeNames, filterPresetType);
             index = EditorGUILayout.Popup("Preset type", index, typeNames);
             if (index >= 0 && index < typeNames.Length)
             {
-                m_filterPresetType = typeNames[index];
-                var selectedPresetType = TypeUtility.GetType(m_filterPresetType);
+                filterPresetType = typeNames[index];
+                var selectedPresetType = TypeUtility.GetType(filterPresetType);
 
-                foreach (var preset in m_presets)
+                foreach (var preset in presets)
                 {
                     string targetFullTypeName;
                     if (TryGetValidPresetTargetFullTypeName(preset, out targetFullTypeName))
@@ -127,41 +127,41 @@ namespace PumpEditor
                         var presetType = TypeUtility.GetType(targetFullTypeName);
                         if (selectedPresetType == presetType)
                         {
-                            m_presetsToDraw.Add(preset);
+                            presetsToDraw.Add(preset);
                         }
                     }
                 }
             }
             else
             {
-                m_filterPresetType = null;
+                filterPresetType = null;
             }
         }
 
         private void FilterByValidity()
         {
-            switch (m_validityToolbarIndex)
+            switch (validityToolbarIndex)
             {
                 case ALL_VALIDITY_TOOLBAR_INDEX:
                     break;
                 case ONLY_VALID_VALIDITY_TOOLBAR_INDEX:
-                    m_presetsToDraw.RemoveAll(p => !p.IsValid());
+                    presetsToDraw.RemoveAll(p => !p.IsValid());
                     break;
                 case ONLY_INVALID_VALIDITY_TOOLBAR_INDEX:
-                    m_presetsToDraw.RemoveAll(p => p.IsValid());
+                    presetsToDraw.RemoveAll(p => p.IsValid());
                     break;
             }
         }
 
         private void DrawPresets()
         {
-            if (m_presetsToDraw.Count != 0)
+            if (presetsToDraw.Count != 0)
             {
-                using (var scrollView = new EditorGUILayout.ScrollViewScope(m_scrollPosition))
+                using (var scrollView = new EditorGUILayout.ScrollViewScope(scrollPosition))
                 {
-                    m_scrollPosition = scrollView.scrollPosition;
+                    scrollPosition = scrollView.scrollPosition;
 
-                    foreach (var preset in m_presetsToDraw)
+                    foreach (var preset in presetsToDraw)
                     {
                         DrawPresetItem(preset);
                     }
