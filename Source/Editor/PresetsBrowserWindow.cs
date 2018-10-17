@@ -34,7 +34,7 @@ namespace PumpEditor
         private static void Init()
         {
             var window = EditorWindow.GetWindow<PresetsBrowserWindow>();
-            var icon = EditorGUIUtility.Load("preset.context") as Texture2D;
+            var icon = EditorGUIUtility.FindTexture("preset.context");
             window.titleContent = new GUIContent("Presets", icon);
             window.Show();
         }
