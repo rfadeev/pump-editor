@@ -26,14 +26,14 @@ namespace PumpEditor
         private HashSet<string> presetTargetFullTypeNames = new HashSet<string>();
         private List<Preset> presetsToDraw = new List<Preset>();
         private int validityToolbarIndex;
-        private bool filterByPresetType = false;
+        private bool filterByPresetType;
         private Vector2 scrollPosition;
-        private string filterPresetType = null;
+        private string filterPresetType;
 
         [MenuItem("Window/Pump Editor/Presets Browser")]
         private static void Init()
         {
-            var window = EditorWindow.GetWindow<PresetsBrowserWindow>();
+            var window = GetWindow<PresetsBrowserWindow>();
             var icon = EditorGUIUtility.FindTexture("preset.context");
             window.titleContent = new GUIContent("Presets", icon);
             window.Show();

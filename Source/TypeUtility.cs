@@ -55,7 +55,9 @@ namespace PumpEditor
                     // See if that assembly defines the named type
                     type = assembly.GetType(typeName);
                     if (type != null)
+                    {
                         return type;
+                    }
                 }
             }
 
