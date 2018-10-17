@@ -50,7 +50,11 @@ namespace PresetsBrowser
         {
             EditorGUILayout.BeginHorizontal();
 
-            EditorGUILayout.ObjectField(preset, null, false);
+            using (new EditorGUI.DisabledScope(true))
+            {
+                EditorGUILayout.ObjectField(preset, null, false);
+            }
+
             if (GUILayout.Button("Select", GUILayout.Width(100)))
             {
                 Selection.activeObject = preset;

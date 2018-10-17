@@ -6,7 +6,7 @@ namespace PresetsBrowser
     public static class TypeUtility
     {
         // Solution for getting type by name when running
-        // frm Unity editor is taken from here:
+        // from Unity editor is taken from here:
         // https://answers.unity.com/answers/239152/view.html
         public static Type GetType(string typeName)
         {
