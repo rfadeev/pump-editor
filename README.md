@@ -3,7 +3,7 @@
 # Presets browser
 Unity presets browser editor window.
 
-![screencast](Documentation/presets-browser-demo.gif)
+![presets-browser-demo](https://user-images.githubusercontent.com/5451929/47091018-a5792300-d256-11e8-8ee2-3a5d3f40ee70.gif)
 
 ## Summary
 Unity 2018.1 introduced [Presets](https://docs.unity3d.com/2018.1/Documentation/ScriptReference/Presets.Preset.html) feature
