@@ -8,6 +8,5 @@ Add this repository as submodule under Assets folder or download it and put to A
 
 ### Features
 * [Prefab Variants Editor Window](https://github.com/rfadeev/pump-editor/wiki/Prefab-Variants-Editor-Window) - preview prefab variants inheritance chains as tree view.
-* [Presets Browser Editor Window](https://github.com/rfadeev/pump-editor/wiki/Presets-Browser-Window) - browse project presets with asset type and validity filters.
 * [Project Settings Select Editor Window](https://github.com/rfadeev/pump-editor/wiki/Project-Settings-Select-Editor-Window) - select project settings to edit in one click.
 * [Scene Open Editor Window](https://github.com/rfadeev/pump-editor/wiki/Scene-Open-Editor-Window) - open scene from project or build settings.
