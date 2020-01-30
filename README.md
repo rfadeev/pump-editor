@@ -3,8 +3,23 @@
 # Pump Editor
 Collection of Unity editor helpers to boost productivity.
 
+## Installation
+Project supports Unity Package Manager. To install project as Git package do following:
+1. Close Unity project and open the `Packages/manifest.json` file.
+2. Update `dependencies` to have `com.rfadeev.pumpeditor` package:
+```json
+{
+  "dependencies": {
+    "com.rfadeev.pumpeditor": "https://github.com/rfadeev/pump-editor.git"
+  }
+}
+```
+3. Open Unity project.
+
+Alternatively, add this repository as submodule under `Assets` folder or download it and put to `Assets` folder of your Unity project. 
+
 ### How to use
-Add this repository as submodule under Assets folder or download it and put to Assets folder of your Unity project.
+Access Pump Editor editor windows via Unity toolbar: **Window -> Pump Editor**.
 
 ### Features
 * [Prefab Variants Editor Window](https://github.com/rfadeev/pump-editor/wiki/Prefab-Variants-Editor-Window) - preview prefab variants inheritance chains as tree view.
