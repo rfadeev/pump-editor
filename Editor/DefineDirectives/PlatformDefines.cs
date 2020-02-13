@@ -170,6 +170,114 @@
             }
         }
 
+        public static bool UnityLuminDefined
+        {
+            get
+            {
+#if UNITY_LUMIN
+                return true;
+#else
+                return false;
+#endif
+            }
+        }
+
+        public static bool UnityTizenDefined
+        {
+            get
+            {
+#if UNITY_TIZEN
+                return true;
+#else
+                return false;
+#endif
+            }
+        }
+
+        public static bool UnityTvosDefined
+        {
+            get
+            {
+#if UNITY_TVOS
+                return true;
+#else
+                return false;
+#endif
+            }
+        }
+
+        public static bool UnityWsaDefined
+        {
+            get
+            {
+#if UNITY_WSA
+                return true;
+#else
+                return false;
+#endif
+            }
+        }
+
+        public static bool UnityWsa10Defined
+        {
+            get
+            {
+#if UNITY_WSA_10_0
+                return true;
+#else
+                return false;
+#endif
+            }
+        }
+
+        public static bool UnityWinrtDefined
+        {
+            get
+            {
+#if UNITY_WINRT
+                return true;
+#else
+                return false;
+#endif
+            }
+        }
+
+        public static bool UnityWinrt10Defined
+        {
+            get
+            {
+#if UNITY_WINRT_10_0
+                return true;
+#else
+                return false;
+#endif
+            }
+        }
+
+        public static bool UnityWebglDefined
+        {
+            get
+            {
+#if UNITY_WEBGL
+                return true;
+#else
+                return false;
+#endif
+            }
+        }
+
+        public static bool UnityFacebookDefined
+        {
+            get
+            {
+#if UNITY_FACEBOOK
+                return true;
+#else
+                return false;
+#endif
+            }
+        }
+
         public static bool UnityAdsDefined
         {
             get
