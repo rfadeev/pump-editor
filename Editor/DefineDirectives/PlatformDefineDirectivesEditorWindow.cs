@@ -34,6 +34,8 @@ namespace PumpEditor
         private const string UNITY_ASSERTIONS_DEFINE = "UNITY_ASSERTIONS";
         private const string UNITY_64_DEFINE = "UNITY_64";
 
+        private Vector2 scrollPos;
+
         [MenuItem("Window/Pump Editor/Platform Define Directives")]
         private static void ShowWindow()
         {
@@ -85,8 +87,9 @@ namespace PumpEditor
 
         private void OnGUI()
         {
-            using (new EditorGUILayout.VerticalScope())
+            using (var scrollView = new EditorGUILayout.ScrollViewScope(scrollPos))
             {
+                scrollPos = scrollView.scrollPosition;
                 DrawPlatformDefines();
             }
         }
