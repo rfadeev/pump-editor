@@ -34,6 +34,18 @@ namespace PumpEditor
         private const string UNITY_ASSERTIONS_DEFINE = "UNITY_ASSERTIONS";
         private const string UNITY_64_DEFINE = "UNITY_64";
 
+        private const string CSHARP_7_3_OR_NEWER_DEFINE = "CSHARP_7_3_OR_NEWER";
+        private const string ENABLE_MONO_DEFINE = "ENABLE_MONO";
+        private const string ENABLE_IL2CPP_DEFINE = "ENABLE_IL2CPP";
+        private const string NET_2_0_DEFINE = "NET_2_0";
+        private const string NET_2_0_SUBSET_DEFINE = "NET_2_0_SUBSET";
+        private const string NET_LEGACY_DEFINE = "NET_LEGACY";
+        private const string NET_4_6_DEFINE = "NET_4_6";
+        private const string NET_STANDARD_2_0_DEFINE = "NET_STANDARD_2_0";
+        private const string ENABLE_WINMD_SUPPORT_DEFINE = "ENABLE_WINMD_SUPPORT";
+        private const string ENABLE_INPUT_SYSTEM_DEFINE = "ENABLE_INPUT_SYSTEM";
+        private const string ENABLE_LEGACY_INPUT_MANAGER_DEFINE = "ENABLE_LEGACY_INPUT_MANAGER";
+
         private Vector2 scrollPos;
 
         [MenuItem("Window/Pump Editor/Platform Define Directives")]
@@ -76,6 +88,30 @@ namespace PumpEditor
             DrawDefine(UNITY_64_DEFINE, PlatformDefines.Unity64Defined);
         }
 
+        private static void DrawCodeCompilationDefines()
+        {
+            DrawDefine(CSHARP_7_3_OR_NEWER_DEFINE, CodeCompilationDefines.Csharp73OrNewerDefined);
+            DrawDefine(ENABLE_MONO_DEFINE, CodeCompilationDefines.EnableMonoDefined);
+            DrawDefine(ENABLE_IL2CPP_DEFINE, CodeCompilationDefines.EnableIl2cppDefined);
+            DrawDefine(NET_2_0_DEFINE, CodeCompilationDefines.Net20Defined);
+            DrawDefine(NET_2_0_SUBSET_DEFINE, CodeCompilationDefines.Net20SubsetDefined);
+            DrawDefine(NET_LEGACY_DEFINE, CodeCompilationDefines.NetLegacyDefined);
+            DrawDefine(NET_4_6_DEFINE, CodeCompilationDefines.Net46Defined);
+            DrawDefine(NET_STANDARD_2_0_DEFINE, CodeCompilationDefines.NetStandard20Defined);
+            DrawDefine(ENABLE_WINMD_SUPPORT_DEFINE, CodeCompilationDefines.EnableWinmdSupportDefined);
+            DrawDefine(ENABLE_INPUT_SYSTEM_DEFINE, CodeCompilationDefines.EnableInputSystemDefined);
+            DrawDefine(ENABLE_LEGACY_INPUT_MANAGER_DEFINE, CodeCompilationDefines.EnableLegacyInputManagerDefined);
+        }
+
+        private static void DrawTableHeader()
+        {
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                EditorGUILayout.LabelField("Define", EditorStyles.boldLabel);
+                EditorGUILayout.LabelField("Value", EditorStyles.boldLabel);
+            }
+        }
+
         private static void DrawDefine(string compilationSymbol, bool isDefined)
         {
             using (new EditorGUILayout.HorizontalScope())
@@ -90,7 +126,14 @@ namespace PumpEditor
             using (var scrollView = new EditorGUILayout.ScrollViewScope(scrollPos))
             {
                 scrollPos = scrollView.scrollPosition;
+
+                DrawTableHeader();
                 DrawPlatformDefines();
+
+                EditorGUILayout.Space();
+
+                DrawTableHeader();
+                DrawCodeCompilationDefines();
             }
         }
     }
