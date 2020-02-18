@@ -1,4 +1,6 @@
-﻿using UnityEditor;
+﻿using System.Collections.Generic;
+using UnityEditor;
+using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 
 namespace PumpEditor
@@ -46,6 +48,56 @@ namespace PumpEditor
         private const string ENABLE_INPUT_SYSTEM_DEFINE = "ENABLE_INPUT_SYSTEM";
         private const string ENABLE_LEGACY_INPUT_MANAGER_DEFINE = "ENABLE_LEGACY_INPUT_MANAGER";
 
+        private static readonly List<DefineInfo> platformDefines = new List<DefineInfo>
+        {
+            new DefineInfo(UNITY_EDITOR_DEFINE, PlatformDefines.UnityEditorDefined),
+            new DefineInfo(UNITY_EDITOR_WIN_DEFINE, PlatformDefines.UnityEditorWinDefined),
+            new DefineInfo(UNITY_EDITOR_OSX_DEFINE, PlatformDefines.UnityEditorOsxDefined),
+            new DefineInfo(UNITY_EDITOR_LINUX_DEFINE, PlatformDefines.UnityEditorLinuxDefined),
+            new DefineInfo(UNITY_STANDALONE_OSX_DEFINE, PlatformDefines.UnityStandaloneOsxDefined),
+            new DefineInfo(UNITY_STANDALONE_WIN_DEFINE, PlatformDefines.UnityStandaloneWinDefined),
+            new DefineInfo(UNITY_STANDALONE_LINUX_DEFINE, PlatformDefines.UnityStandaloneLinuxDefined),
+            new DefineInfo(UNITY_STANDALONE_DEFINE, PlatformDefines.UnityStandaloneDefined),
+            new DefineInfo(UNITY_WII_DEFINE, PlatformDefines.UnityWiiDefined),
+            new DefineInfo(UNITY_IOS_DEFINE, PlatformDefines.UnityIosDefined),
+            new DefineInfo(UNITY_IPHONE_DEFINE, PlatformDefines.UnityIphoneDefined),
+            new DefineInfo(UNITY_ANDROID_DEFINE, PlatformDefines.UnityAndroidDefined),
+            new DefineInfo(UNITY_PS4_DEFINE, PlatformDefines.UnityPs4Defined),
+            new DefineInfo(UNITY_XBOXONE_DEFINE, PlatformDefines.UnityXboxoneDefined),
+            new DefineInfo(UNITY_LUMIN_DEFINE, PlatformDefines.UnityLuminDefined),
+            new DefineInfo(UNITY_TIZEN_DEFINE, PlatformDefines.UnityTizenDefined),
+            new DefineInfo(UNITY_TVOS_DEFINE, PlatformDefines.UnityTvosDefined),
+            new DefineInfo(UNITY_WSA_DEFINE, PlatformDefines.UnityWsaDefined),
+            new DefineInfo(UNITY_WSA_10_0_DEFINE, PlatformDefines.UnityWsa10Defined),
+            new DefineInfo(UNITY_WINRT_DEFINE, PlatformDefines.UnityWinrtDefined),
+            new DefineInfo(UNITY_WINRT_10_0_DEFINE, PlatformDefines.UnityWinrt10Defined),
+            new DefineInfo(UNITY_WEBGL_DEFINE, PlatformDefines.UnityWebglDefined),
+            new DefineInfo(UNITY_FACEBOOK_DEFINE, PlatformDefines.UnityFacebookDefined),
+            new DefineInfo(UNITY_ADS_DEFINE, PlatformDefines.UnityAdsDefined),
+            new DefineInfo(UNITY_ANALYTICS_DEFINE, PlatformDefines.UnityAnalyticsDefined),
+            new DefineInfo(UNITY_ASSERTIONS_DEFINE, PlatformDefines.UnityAssertionsDefined),
+            new DefineInfo(UNITY_64_DEFINE, PlatformDefines.Unity64Defined),
+        };
+
+        private static readonly List<DefineInfo> codeCompilationDefines = new List<DefineInfo>
+        {
+            new DefineInfo(CSHARP_7_3_OR_NEWER_DEFINE, CodeCompilationDefines.Csharp73OrNewerDefined),
+            new DefineInfo(ENABLE_MONO_DEFINE, CodeCompilationDefines.EnableMonoDefined),
+            new DefineInfo(ENABLE_IL2CPP_DEFINE, CodeCompilationDefines.EnableIl2cppDefined),
+            new DefineInfo(NET_2_0_DEFINE, CodeCompilationDefines.Net20Defined),
+            new DefineInfo(NET_2_0_SUBSET_DEFINE, CodeCompilationDefines.Net20SubsetDefined),
+            new DefineInfo(NET_LEGACY_DEFINE, CodeCompilationDefines.NetLegacyDefined),
+            new DefineInfo(NET_4_6_DEFINE, CodeCompilationDefines.Net46Defined),
+            new DefineInfo(NET_STANDARD_2_0_DEFINE, CodeCompilationDefines.NetStandard20Defined),
+            new DefineInfo(ENABLE_WINMD_SUPPORT_DEFINE, CodeCompilationDefines.EnableWinmdSupportDefined),
+            new DefineInfo(ENABLE_INPUT_SYSTEM_DEFINE, CodeCompilationDefines.EnableInputSystemDefined),
+            new DefineInfo(ENABLE_LEGACY_INPUT_MANAGER_DEFINE, CodeCompilationDefines.EnableLegacyInputManagerDefined),
+        };
+
+        private SearchField searchField;
+        private string searchFieldInputString;
+        private List<DefineInfo> platformDefinesToDraw;
+        private List<DefineInfo> codeCompilationDefinesToDraw;
         private Vector2 scrollPos;
 
         [MenuItem("Window/Pump Editor/Platform Define Directives")]
@@ -57,50 +109,12 @@ namespace PumpEditor
             window.Show();
         }
 
-        private static void DrawPlatformDefines()
+        private static void DrawDefines(IEnumerable<DefineInfo> definesToDraw)
         {
-            DrawDefine(UNITY_EDITOR_DEFINE, PlatformDefines.UnityEditorDefined);
-            DrawDefine(UNITY_EDITOR_WIN_DEFINE, PlatformDefines.UnityEditorWinDefined);
-            DrawDefine(UNITY_EDITOR_OSX_DEFINE, PlatformDefines.UnityEditorOsxDefined);
-            DrawDefine(UNITY_EDITOR_LINUX_DEFINE, PlatformDefines.UnityEditorLinuxDefined);
-            DrawDefine(UNITY_STANDALONE_OSX_DEFINE, PlatformDefines.UnityStandaloneOsxDefined);
-            DrawDefine(UNITY_STANDALONE_WIN_DEFINE, PlatformDefines.UnityStandaloneWinDefined);
-            DrawDefine(UNITY_STANDALONE_LINUX_DEFINE, PlatformDefines.UnityStandaloneLinuxDefined);
-            DrawDefine(UNITY_STANDALONE_DEFINE, PlatformDefines.UnityStandaloneDefined);
-            DrawDefine(UNITY_WII_DEFINE, PlatformDefines.UnityWiiDefined);
-            DrawDefine(UNITY_IOS_DEFINE, PlatformDefines.UnityIosDefined);
-            DrawDefine(UNITY_IPHONE_DEFINE, PlatformDefines.UnityIphoneDefined);
-            DrawDefine(UNITY_ANDROID_DEFINE, PlatformDefines.UnityAndroidDefined);
-            DrawDefine(UNITY_PS4_DEFINE, PlatformDefines.UnityPs4Defined);
-            DrawDefine(UNITY_XBOXONE_DEFINE, PlatformDefines.UnityXboxoneDefined);
-            DrawDefine(UNITY_LUMIN_DEFINE, PlatformDefines.UnityLuminDefined);
-            DrawDefine(UNITY_TIZEN_DEFINE, PlatformDefines.UnityTizenDefined);
-            DrawDefine(UNITY_TVOS_DEFINE, PlatformDefines.UnityTvosDefined);
-            DrawDefine(UNITY_WSA_DEFINE, PlatformDefines.UnityWsaDefined);
-            DrawDefine(UNITY_WSA_10_0_DEFINE, PlatformDefines.UnityWsa10Defined);
-            DrawDefine(UNITY_WINRT_DEFINE, PlatformDefines.UnityWinrtDefined);
-            DrawDefine(UNITY_WINRT_10_0_DEFINE, PlatformDefines.UnityWinrt10Defined);
-            DrawDefine(UNITY_WEBGL_DEFINE, PlatformDefines.UnityWebglDefined);
-            DrawDefine(UNITY_FACEBOOK_DEFINE, PlatformDefines.UnityFacebookDefined);
-            DrawDefine(UNITY_ADS_DEFINE, PlatformDefines.UnityAdsDefined);
-            DrawDefine(UNITY_ANALYTICS_DEFINE, PlatformDefines.UnityAnalyticsDefined);
-            DrawDefine(UNITY_ASSERTIONS_DEFINE, PlatformDefines.UnityAssertionsDefined);
-            DrawDefine(UNITY_64_DEFINE, PlatformDefines.Unity64Defined);
-        }
-
-        private static void DrawCodeCompilationDefines()
-        {
-            DrawDefine(CSHARP_7_3_OR_NEWER_DEFINE, CodeCompilationDefines.Csharp73OrNewerDefined);
-            DrawDefine(ENABLE_MONO_DEFINE, CodeCompilationDefines.EnableMonoDefined);
-            DrawDefine(ENABLE_IL2CPP_DEFINE, CodeCompilationDefines.EnableIl2cppDefined);
-            DrawDefine(NET_2_0_DEFINE, CodeCompilationDefines.Net20Defined);
-            DrawDefine(NET_2_0_SUBSET_DEFINE, CodeCompilationDefines.Net20SubsetDefined);
-            DrawDefine(NET_LEGACY_DEFINE, CodeCompilationDefines.NetLegacyDefined);
-            DrawDefine(NET_4_6_DEFINE, CodeCompilationDefines.Net46Defined);
-            DrawDefine(NET_STANDARD_2_0_DEFINE, CodeCompilationDefines.NetStandard20Defined);
-            DrawDefine(ENABLE_WINMD_SUPPORT_DEFINE, CodeCompilationDefines.EnableWinmdSupportDefined);
-            DrawDefine(ENABLE_INPUT_SYSTEM_DEFINE, CodeCompilationDefines.EnableInputSystemDefined);
-            DrawDefine(ENABLE_LEGACY_INPUT_MANAGER_DEFINE, CodeCompilationDefines.EnableLegacyInputManagerDefined);
+            foreach (var defineToDraw in definesToDraw)
+            {
+                DrawDefine(defineToDraw.CompilationSymbol, defineToDraw.IsDefined);
+            }
         }
 
         private static void DrawTableHeader()
@@ -121,7 +135,33 @@ namespace PumpEditor
             }
         }
 
-        private void OnGUI()
+        private void DrawSearchField()
+        {
+            var rect = EditorGUILayout.GetControlRect();
+
+            using (var change = new EditorGUI.ChangeCheckScope())
+            {
+                searchFieldInputString = searchField.OnToolbarGUI(rect, null);
+                if (change.changed)
+                {
+                    UpdateSearchResult();
+                }
+            }
+        }
+
+        private void UpdateSearchResult()
+        {
+            platformDefinesToDraw = platformDefines.FindAll(IsSearchMatch);
+            codeCompilationDefinesToDraw = codeCompilationDefines.FindAll(IsSearchMatch);
+        }
+
+        private bool IsSearchMatch(DefineInfo defineInfo)
+        {
+            return defineInfo.CompilationSymbol.ToLower().Contains(searchFieldInputString.ToLower());
+        }
+
+
+        private void DrawDefines()
         {
             using (var scrollView = new EditorGUILayout.ScrollViewScope(scrollPos))
             {
@@ -135,6 +175,41 @@ namespace PumpEditor
                 DrawTableHeader();
                 DrawCodeCompilationDefines();
             }
+        }
+
+        private void DrawPlatformDefines()
+        {
+            DrawDefines(platformDefinesToDraw);
+        }
+
+        private void DrawCodeCompilationDefines()
+        {
+            DrawDefines(codeCompilationDefinesToDraw);
+        }
+
+        private void OnGUI()
+        {
+            DrawSearchField();
+            DrawDefines();
+        }
+
+        private void OnEnable()
+        {
+            searchField = new SearchField();
+            platformDefinesToDraw = platformDefines;
+            codeCompilationDefinesToDraw = codeCompilationDefines;
+        }
+
+        private class DefineInfo
+        {
+            public DefineInfo(string compilationSymbol, bool isDefined)
+            {
+                CompilationSymbol = compilationSymbol;
+                IsDefined = isDefined;
+            }
+
+            public string CompilationSymbol { get; private set; }
+            public bool IsDefined { get; private set; }
         }
     }
 }
