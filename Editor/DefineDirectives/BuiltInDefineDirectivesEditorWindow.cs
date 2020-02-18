@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace PumpEditor
 {
-    public class PlatformDefineDirectivesEditorWindow : EditorWindow
+    public class BuiltInDefineDirectivesEditorWindow : EditorWindow
     {
         // Platform define directives from https://docs.unity3d.com/2019.3/Documentation/Manual/PlatformDependentCompilation.html
         private const string UNITY_EDITOR_DEFINE = "UNITY_EDITOR";
@@ -100,12 +100,12 @@ namespace PumpEditor
         private List<DefineInfo> codeCompilationDefinesToDraw;
         private Vector2 scrollPos;
 
-        [MenuItem("Window/Pump Editor/Platform Define Directives")]
+        [MenuItem("Window/Pump Editor/Built-in Define Directives")]
         private static void ShowWindow()
         {
-            var window = EditorWindow.GetWindow<PlatformDefineDirectivesEditorWindow>();
+            var window = EditorWindow.GetWindow<BuiltInDefineDirectivesEditorWindow>();
             var icon = EditorGUIUtility.Load("scriptableobject icon") as Texture2D;
-            window.titleContent = new GUIContent("Platform Define Directives", icon);
+            window.titleContent = new GUIContent("Built-in Define Directives", icon);
             window.Show();
         }
 
