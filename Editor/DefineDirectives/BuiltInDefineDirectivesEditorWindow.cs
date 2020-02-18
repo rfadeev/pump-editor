@@ -109,19 +109,24 @@ namespace PumpEditor
             window.Show();
         }
 
-        private static void DrawDefines(IEnumerable<DefineInfo> definesToDraw)
+        private static void DrawDefines(string defineTypeTitle, ICollection<DefineInfo> definesToDraw)
         {
+            if (definesToDraw.Count != 0)
+            {
+                DrawTableHeader(defineTypeTitle);
+            }
+
             foreach (var defineToDraw in definesToDraw)
             {
                 DrawDefine(defineToDraw.CompilationSymbol, defineToDraw.IsDefined);
             }
         }
 
-        private static void DrawTableHeader()
+        private static void DrawTableHeader(string defineTypeTitle)
         {
             using (new EditorGUILayout.HorizontalScope())
             {
-                EditorGUILayout.LabelField("Define", EditorStyles.boldLabel);
+                EditorGUILayout.LabelField(defineTypeTitle, EditorStyles.boldLabel);
                 EditorGUILayout.LabelField("Value", EditorStyles.boldLabel);
             }
         }
@@ -167,24 +172,20 @@ namespace PumpEditor
             {
                 scrollPos = scrollView.scrollPosition;
 
-                DrawTableHeader();
                 DrawPlatformDefines();
-
                 EditorGUILayout.Space();
-
-                DrawTableHeader();
                 DrawCodeCompilationDefines();
             }
         }
 
         private void DrawPlatformDefines()
         {
-            DrawDefines(platformDefinesToDraw);
+            DrawDefines("Platform Define", platformDefinesToDraw);
         }
 
         private void DrawCodeCompilationDefines()
         {
-            DrawDefines(codeCompilationDefinesToDraw);
+            DrawDefines("Code Compilation Define", codeCompilationDefinesToDraw);
         }
 
         private void OnGUI()
