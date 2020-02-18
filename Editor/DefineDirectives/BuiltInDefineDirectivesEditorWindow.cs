@@ -104,7 +104,7 @@ namespace PumpEditor
         private static void ShowWindow()
         {
             var window = EditorWindow.GetWindow<BuiltInDefineDirectivesEditorWindow>();
-            var icon = EditorGUIUtility.Load("scriptableobject icon") as Texture2D;
+            var icon = EditorGUIUtility.Load("d_cs script icon") as Texture2D;
             window.titleContent = new GUIContent("Built-in Define Directives", icon);
             window.Show();
         }
