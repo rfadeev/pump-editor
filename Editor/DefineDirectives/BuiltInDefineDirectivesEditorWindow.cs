@@ -124,7 +124,7 @@ namespace PumpEditor
 
         private static void DrawTableHeader(string defineTypeTitle)
         {
-            using (new EditorGUILayout.HorizontalScope())
+            using (new EditorGUILayout.HorizontalScope(Styles.headerStyle))
             {
                 EditorGUILayout.LabelField(defineTypeTitle, EditorStyles.boldLabel);
                 EditorGUILayout.LabelField("Value", EditorStyles.boldLabel);
@@ -190,7 +190,11 @@ namespace PumpEditor
 
         private void OnGUI()
         {
-            DrawSearchField();
+            using (new EditorGUILayout.VerticalScope(EditorStyles.toolbar))
+            {
+                DrawSearchField();
+            }
+
             DrawDefines();
         }
 
@@ -199,6 +203,19 @@ namespace PumpEditor
             searchField = new SearchField();
             platformDefinesToDraw = platformDefines;
             codeCompilationDefinesToDraw = codeCompilationDefines;
+        }
+
+        private static class Styles
+        {
+            public static readonly GUIStyle headerStyle;
+
+            static Styles()
+            {
+                headerStyle = new GUIStyle(GUI.skin.box);
+                headerStyle.border = new RectOffset();
+                headerStyle.margin = new RectOffset();
+                headerStyle.padding = new RectOffset();
+            }
         }
 
         private class DefineInfo
