@@ -8,10 +8,19 @@ namespace PumpEditor
     public static class LockToggle
     {
         [MenuItem("Window/Pump Editor/Tools/Toggle Lock Focused Window %l")]
-        private static void ToggleInspectorLockFocusedWindow()
+        private static void ToggleLockFocusedWindow()
         {
-            EditorWindow editorWindow = EditorWindow.focusedWindow;
+            ToggleLockEditorWindow(EditorWindow.focusedWindow);
+        }
 
+        [MenuItem("Window/Pump Editor/Tools/Toggle Lock Mouse Over Window %#l")]
+        private static void ToggleLockMouseOverWindow()
+        {
+            ToggleLockEditorWindow(EditorWindow.mouseOverWindow);
+        }
+
+        private static void ToggleLockEditorWindow(EditorWindow editorWindow)
+        {
             Assembly editorAssembly = Assembly.GetAssembly(typeof(Editor));
             Type projectBrowserType = editorAssembly.GetType("UnityEditor.ProjectBrowser");
             Type inspectorWindowType = editorAssembly.GetType("UnityEditor.InspectorWindow");
