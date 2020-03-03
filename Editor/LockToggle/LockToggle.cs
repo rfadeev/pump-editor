@@ -40,6 +40,7 @@ namespace PumpEditor
             Type editorWindowType = editorWindow.GetType();
             if (editorWindowType == projectBrowserType)
             {
+                // Unity C# reference: https://github.com/Unity-Technologies/UnityCsReference/blob/c6ec7823//Editor/Mono/ProjectBrowser.cs#L113
                 PropertyInfo propertyInfo = projectBrowserType.GetProperty("isLocked", BindingFlags.Instance | BindingFlags.NonPublic);
 
                 bool value = (bool)propertyInfo.GetValue(editorWindow);
@@ -47,6 +48,7 @@ namespace PumpEditor
             }
             else if (editorWindowType == inspectorWindowType)
             {
+                // Unity C# reference: https://github.com/Unity-Technologies/UnityCsReference/blob/c6ec7823//Editor/Mono/Inspector/InspectorWindow.cs##L492
                 PropertyInfo propertyInfo = inspectorWindowType.GetProperty("isLocked");
 
                 bool value = (bool)propertyInfo.GetValue(editorWindow);
@@ -54,9 +56,11 @@ namespace PumpEditor
             }
             else if (editorWindowType == sceneHierarchyWindowType)
             {
+                // Unity C# reference: https://github.com/Unity-Technologies/UnityCsReference/blob/c6ec7823/Editor/Mono/SceneHierarchyWindow.cs#L34
                 PropertyInfo sceneHierarchyPropertyInfo = sceneHierarchyWindowType.GetProperty("sceneHierarchy");
                 var sceneHierarchy = sceneHierarchyPropertyInfo.GetValue(editorWindow);
 
+                // Unity C# reference: https://github.com/Unity-Technologies/UnityCsReference/blob/c6ec7823/Editor/Mono/SceneHierarchy.cs#L88
                 Type sceneHierarchyType = editorAssembly.GetType("UnityEditor.SceneHierarchy");
                 PropertyInfo propertyInfo = sceneHierarchyType.GetProperty("isLocked", BindingFlags.Instance | BindingFlags.NonPublic);
 
