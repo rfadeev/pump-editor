@@ -1,22 +1,33 @@
 ﻿using System;
 using System.Reflection;
 using UnityEditor;
+using UnityEngine;
 
 namespace PumpEditor
 {
     // Inspired by https://forum.unity.com/threads/shortcut-key-for-lock-inspector.95815/#post-5013983
     public static class LockToggle
     {
-        [MenuItem("Window/Pump Editor/Tools/Toggle Lock Focused Window %l")]
+        [MenuItem("Window/Pump Editor/Tools/Toggle Lock Focused Window %w")]
         private static void ToggleLockFocusedWindow()
         {
             ToggleLockEditorWindow(EditorWindow.focusedWindow);
         }
 
-        [MenuItem("Window/Pump Editor/Tools/Toggle Lock Mouse Over Window %#l")]
+        [MenuItem("Window/Pump Editor/Tools/Toggle Lock Mouse Over Window %e")]
         private static void ToggleLockMouseOverWindow()
         {
             ToggleLockEditorWindow(EditorWindow.mouseOverWindow);
+        }
+
+        [MenuItem("Window/Pump Editor/Tools/Toggle Lock All Windows %#w")]
+        private static void ToggleLockAllWindows()
+        {
+            var allWindows = Resources.FindObjectsOfTypeAll<EditorWindow>();
+            foreach (var editorWindow in allWindows)
+            { 
+                ToggleLockEditorWindow(editorWindow);
+            }
         }
 
         private static void ToggleLockEditorWindow(EditorWindow editorWindow)
