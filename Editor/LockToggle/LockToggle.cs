@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Reflection;
 using UnityEditor;
+#if UNITY_2019_1_OR_NEWER
+using UnityEditor.ShortcutManagement;
+#endif
 using UnityEngine;
 
 namespace PumpEditor
@@ -8,19 +11,31 @@ namespace PumpEditor
     // Inspired by https://forum.unity.com/threads/shortcut-key-for-lock-inspector.95815/#post-5013983
     public static class LockToggle
     {
+#if UNITY_2019_1_OR_NEWER
+        [Shortcut("Pump Editor/Toggle Lock Focused Window", KeyCode.W, ShortcutModifiers.Action)]
+#else
         [MenuItem("Window/Pump Editor/Tools/Toggle Lock Focused Window %w")]
+#endif
         private static void ToggleLockFocusedWindow()
         {
             ToggleLockEditorWindow(EditorWindow.focusedWindow);
         }
 
+#if UNITY_2019_1_OR_NEWER
+        [Shortcut("Pump Editor/Toggle Lock Mouse Over Window", KeyCode.E, ShortcutModifiers.Action)]
+#else
         [MenuItem("Window/Pump Editor/Tools/Toggle Lock Mouse Over Window %e")]
+#endif
         private static void ToggleLockMouseOverWindow()
         {
             ToggleLockEditorWindow(EditorWindow.mouseOverWindow);
         }
 
+#if UNITY_2019_1_OR_NEWER
+        [Shortcut("Pump Editor/Toggle Lock All Windows", KeyCode.W, ShortcutModifiers.Action | ShortcutModifiers.Shift)]
+#else
         [MenuItem("Window/Pump Editor/Tools/Toggle Lock All Windows %#w")]
+#endif
         private static void ToggleLockAllWindows()
         {
             var allWindows = Resources.FindObjectsOfTypeAll<EditorWindow>();
