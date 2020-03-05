@@ -61,8 +61,7 @@ namespace PumpEditor
                 targetPath = EditorUtility.SaveFolderPanel("Choose target folder", UnityEditorApplicationProjectTemplatesPath, "");
             }
 
-            EditorGUILayout.HelpBox("Path is readonly text field, to input value click \"Select Target Folder\" button.", MessageType.Info);
-            EditorGUILayout.TextField("Path:", targetPath);
+            targetPath = EditorGUILayout.TextField("Path:", targetPath);
 
             templateName = EditorGUILayout.TextField("Name:", templateName);
             templateDisplayName = EditorGUILayout.TextField("Display name:", templateDisplayName);
