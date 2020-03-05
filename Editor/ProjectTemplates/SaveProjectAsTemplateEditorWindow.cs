@@ -31,11 +31,12 @@ namespace PumpEditor
         private string templateVersion;
         private bool replaceTemplate;
 
-        [MenuItem("Window/Pump Editor/Save Project As Template")]
+        [MenuItem("Window/Pump Editor/Project Templates/Save Project As Template")]
         private static void ShowWindow()
         {
             var window = EditorWindow.GetWindow<SaveProjectAsTemplateEditorWindow>();
-            window.titleContent = new GUIContent("Save Project As Template");
+            var icon = EditorGUIUtility.Load("saveas@2x") as Texture2D;
+            window.titleContent = new GUIContent("Save Project As Template", icon);
             window.Show();
         }
 
