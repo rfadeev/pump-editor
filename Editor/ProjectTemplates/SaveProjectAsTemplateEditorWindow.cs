@@ -1,9 +1,10 @@
-﻿using System;
+﻿#if UNITY_2018_1_OR_NEWER
+
+using System;
 using System.IO;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
-
 namespace PumpEditor
 {
     public class SaveProjectAsTemplateEditorWindow : EditorWindow
@@ -59,11 +60,14 @@ namespace PumpEditor
             }
         }
 
+        // Use 2018.2 references as 2018.1 does not have this method (but it's called from 2018.1 UnityEditor.ProjectTemplateWindow).
         private void InvokeSaveProjectAsTemplate()
         {
+            // Unity C# reference: https://github.com/Unity-Technologies/UnityCsReference/blob/4aea4dc4/Editor/Mono/EditorUtility.bindings.cs#L16
             Assembly editorAssembly = Assembly.GetAssembly(typeof(Editor));
             Type editorUtilityType = editorAssembly.GetType("UnityEditor.EditorUtility");
 
+            // Unity C# reference: https://github.com/Unity-Technologies/UnityCsReference/blob/4aea4dc4/Editor/Mono/EditorUtility.bindings.cs#L172
             MethodInfo methodInfo = editorUtilityType.GetMethod("SaveProjectAsTemplate", BindingFlags.Static | BindingFlags.NonPublic);
             methodInfo.Invoke(editorUtilityType, new object[]{ targetPath, templateName, templateDisplayName, templateDescription, templateDefaultScene, templateVersion});
         }
@@ -157,3 +161,5 @@ namespace PumpEditor
         }
     }
 }
+
+#endif
