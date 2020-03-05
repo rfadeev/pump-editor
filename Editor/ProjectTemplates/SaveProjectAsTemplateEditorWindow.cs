@@ -54,14 +54,37 @@ namespace PumpEditor
             }
         }
 
+        private void SetTemplateDataFromPackageJson()
+        {
+            var packageJsonPath = Path.Combine(targetPath, "package.json");
+            if (File.Exists(packageJsonPath))
+            {
+                var packageJson = File.ReadAllText(packageJsonPath);
+                var templateData = JsonUtility.FromJson<TemplateData>(packageJson);
+                templateName = templateData.Name;
+                templateDisplayName = templateData.DisplayName;
+                templateDescription = templateData.Description;
+                templateDefaultScene = templateData.DefaultScene;
+                templateVersion = templateData.Version;
+            }
+        }
+
         private void OnGUI()
         {
             if (GUILayout.Button("Select Target Folder"))
             {
                 targetPath = EditorUtility.SaveFolderPanel("Choose target folder", UnityEditorApplicationProjectTemplatesPath, "");
+                SetTemplateDataFromPackageJson();
             }
 
-            targetPath = EditorGUILayout.TextField("Path:", targetPath);
+            using (var check = new EditorGUI.ChangeCheckScope())
+            {
+                targetPath = EditorGUILayout.TextField("Path:", targetPath);
+                if (check.changed)
+                {
+                    SetTemplateDataFromPackageJson();
+                }
+            }
 
             templateName = EditorGUILayout.TextField("Name:", templateName);
             templateDisplayName = EditorGUILayout.TextField("Display name:", templateDisplayName);
@@ -75,6 +98,29 @@ namespace PumpEditor
                 InvokeSaveProjectAsTemplate();
                 DeleteProjectVersionTxt();
             }
+        }
+
+        [Serializable]
+        private class TemplateData
+        {
+#pragma warning disable 0649
+            [SerializeField]
+            private string name;
+            [SerializeField]
+            private string displayName;
+            [SerializeField]
+            private string description;
+            [SerializeField]
+            private string defaultScene;
+            [SerializeField]
+            private string version;
+#pragma warning restore 0649
+
+            public string Name { get { return name; } }
+            public string DisplayName { get { return displayName; } }
+            public string Description { get { return description; } }
+            public string DefaultScene { get { return defaultScene; } }
+            public string Version { get { return version; } }
         }
     }
 }
