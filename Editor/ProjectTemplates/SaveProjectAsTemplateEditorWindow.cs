@@ -40,6 +40,20 @@ namespace PumpEditor
             methodInfo.Invoke(editorUtilityType, new object[]{ targetPath, templateName, templateDisplayName, templateDescription, templateDefaultScene, templateVersion});
         }
 
+        private void DeleteProjectVersionTxt()
+        {
+            var projectVersionTxtPath = Path.Combine(targetPath, "ProjectSettings", "ProjectVersion.txt");
+
+            if (File.Exists(projectVersionTxtPath))
+            {
+                File.Delete(projectVersionTxtPath);
+            }
+            else
+            {
+                Debug.LogErrorFormat("File ProjectVersion.txt does not exist at path: {0}", projectVersionTxtPath);
+            }
+        }
+
         private void OnGUI()
         {
             if (GUILayout.Button("Select Target Folder"))
@@ -60,6 +74,7 @@ namespace PumpEditor
             {
                 AssetDatabase.SaveAssets();
                 InvokeSaveProjectAsTemplate();
+                DeleteProjectVersionTxt();
             }
         }
     }
