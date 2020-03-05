@@ -16,12 +16,20 @@ namespace PumpEditor
             "ProjectTemplates"
         );
 
+        private static readonly string[] TemplateFolderNames = new string[]
+        {
+            "Assets",
+            "Packages",
+            "ProjectSettings",
+        };
+
         private string targetPath;
         private string templateName;
         private string templateDisplayName;
         private string templateDescription;
         private string templateDefaultScene;
         private string templateVersion;
+        private bool replaceTemplate;
 
         [MenuItem("Window/Pump Editor/Save Project As Template")]
         private static void ShowWindow()
@@ -29,6 +37,25 @@ namespace PumpEditor
             var window = EditorWindow.GetWindow<SaveProjectAsTemplateEditorWindow>();
             window.titleContent = new GUIContent("Save Project As Template");
             window.Show();
+        }
+
+        private void DeleteTemplateFolders()
+        {
+            try
+            {
+                foreach (var tempateFolderName in TemplateFolderNames)
+                {
+                    var path = Path.Combine(targetPath, tempateFolderName);
+                    if (Directory.Exists(path))
+                    {
+                        Directory.Delete(path, true);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogErrorFormat("Failed to delete template folders, exception: {0}", e.Message);
+            }
         }
 
         private void InvokeSaveProjectAsTemplate()
@@ -91,9 +118,14 @@ namespace PumpEditor
             templateDescription = EditorGUILayout.TextField("Description:", templateDescription);
             templateDefaultScene = EditorGUILayout.TextField("Default scene:", templateDefaultScene);
             templateVersion = EditorGUILayout.TextField("Version:", templateVersion);
+            replaceTemplate = EditorGUILayout.Toggle("Replace Template:", replaceTemplate);
 
             if (GUILayout.Button("Save"))
             {
+                if (replaceTemplate)
+                {
+                    DeleteTemplateFolders();
+                }
                 AssetDatabase.SaveAssets();
                 InvokeSaveProjectAsTemplate();
                 DeleteProjectVersionTxt();
