@@ -5,6 +5,7 @@ using System.IO;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
+
 namespace PumpEditor
 {
     public class SaveProjectAsTemplateEditorWindow : EditorWindow
@@ -30,6 +31,7 @@ namespace PumpEditor
         private string templateDescription;
         private string templateDefaultScene;
         private string templateVersion;
+        private SceneAsset templateDefaultSceneAsset;
         private bool replaceTemplate;
 
         [MenuItem("Window/Pump Editor/Project Templates/Save Project As Template")]
@@ -98,6 +100,38 @@ namespace PumpEditor
                 templateDescription = templateData.Description;
                 templateDefaultScene = templateData.DefaultScene;
                 templateVersion = templateData.Version;
+                SetDefaultSceneAssetFromPath();
+            }
+        }
+
+        private void SetDefaultSceneAssetFromPath()
+        {
+            if (templateDefaultScene != String.Empty)
+            {
+                templateDefaultSceneAsset = AssetDatabase.LoadAssetAtPath<SceneAsset>(templateDefaultScene);
+                Debug.AssertFormat(templateDefaultSceneAsset != null, "Failed to load scene asset at path from package.json, path: {0}", templateDefaultScene);
+            }
+            else
+            {
+                templateDefaultSceneAsset = null;
+            }
+        }
+
+        private void DefaultSceneGUI()
+        {
+            templateDefaultSceneAsset = (SceneAsset)EditorGUILayout.ObjectField("Default scene asset:", templateDefaultSceneAsset, typeof(SceneAsset), false);
+            if (templateDefaultSceneAsset != null)
+            {
+                templateDefaultScene = AssetDatabase.GetAssetPath(templateDefaultSceneAsset);
+            }
+            else
+            {
+                templateDefaultScene = null;
+            }
+
+            using (new EditorGUI.DisabledGroupScope(true))
+            {
+                EditorGUILayout.TextField("Default scene:", templateDefaultScene);
             }
         }
 
@@ -105,7 +139,7 @@ namespace PumpEditor
         {
             if (GUILayout.Button("Select Target Folder"))
             {
-                targetPath = EditorUtility.SaveFolderPanel("Choose target folder", UnityEditorApplicationProjectTemplatesPath, "");
+                targetPath = EditorUtility.SaveFolderPanel("Choose target folder", UnityEditorApplicationProjectTemplatesPath, String.Empty);
                 SetTemplateDataFromPackageJson();
             }
 
@@ -121,9 +155,9 @@ namespace PumpEditor
             templateName = EditorGUILayout.TextField("Name:", templateName);
             templateDisplayName = EditorGUILayout.TextField("Display name:", templateDisplayName);
             templateDescription = EditorGUILayout.TextField("Description:", templateDescription);
-            templateDefaultScene = EditorGUILayout.TextField("Default scene:", templateDefaultScene);
+            DefaultSceneGUI();
             templateVersion = EditorGUILayout.TextField("Version:", templateVersion);
-            replaceTemplate = EditorGUILayout.Toggle("Replace Template:", replaceTemplate);
+            replaceTemplate = EditorGUILayout.Toggle("Replace template:", replaceTemplate);
 
             if (GUILayout.Button("Save"))
             {
