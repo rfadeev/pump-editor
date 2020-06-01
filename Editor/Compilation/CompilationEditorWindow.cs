@@ -1,5 +1,7 @@
 ﻿using UnityEditor;
+#if UNITY_2019_3_OR_NEWER
 using UnityEditor.Compilation;
+#endif
 using UnityEngine;
 
 namespace PumpEditor
@@ -18,7 +20,11 @@ namespace PumpEditor
         {
             if (GUILayout.Button("Request Script Compilation"))
             {
+#if UNITY_2019_3_OR_NEWER
                 CompilationPipeline.RequestScriptCompilation();
+#elif UNITY_2017_1_OR_NEWER
+                CompilationUtils.RequestScriptCompilationViaReflection();
+#endif
             }
         }
     }
