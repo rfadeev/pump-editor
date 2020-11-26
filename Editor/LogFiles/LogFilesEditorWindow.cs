@@ -42,8 +42,12 @@ namespace PumpEditor
 
         private static void EditorLogsGUI()
         {
+            EditorGUILayout.LabelField("Package Manager", EditorStyles.boldLabel);
+            DrawLogFileItem("Package manager log", LogFilePathsAPI.GetPackageManagerLogPath());
+
             EditorGUILayout.LabelField("Editor", EditorStyles.boldLabel);
             DrawLogFileItem("Editor log", LogFilePathsAPI.GetEditorLogPath());
+            DrawLogFileItem("Editor log prev", LogFilePathsAPI.GetEditorLogPrevPath());
         }
 
         private void OnGUI()
