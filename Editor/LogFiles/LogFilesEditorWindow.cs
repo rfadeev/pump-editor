@@ -1,5 +1,8 @@
-﻿using UnityEditor;
+﻿using System.Diagnostics;
+using System.IO;
+using UnityEditor;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 namespace PumpEditor
 {
@@ -15,13 +18,24 @@ namespace PumpEditor
 
         private static void DrawLogFileItem(string name, string logFilePath)
         {
+            EditorGUILayout.TextField(name, logFilePath);
+
             using (new EditorGUILayout.HorizontalScope())
             {
-                EditorGUILayout.TextField(name, logFilePath);
-
                 if (GUILayout.Button("Log path to console"))
                 {
                     Debug.Log(logFilePath);
+                }
+
+                if (GUILayout.Button("Open directory"))
+                {
+                    var dirPath = Path.GetDirectoryName(logFilePath);
+                    Process.Start(dirPath);
+                }
+
+                if (GUILayout.Button("Open file"))
+                {
+                   Process.Start(logFilePath);
                 }
             }
         }
