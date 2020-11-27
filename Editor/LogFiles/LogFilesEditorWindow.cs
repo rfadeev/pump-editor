@@ -3,6 +3,9 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
+#if UNITY_2019_2_OR_NEWER
+using Unity.CodeEditor;
+#endif
 
 namespace PumpEditor
 {
@@ -15,6 +18,16 @@ namespace PumpEditor
             window.titleContent = new GUIContent("Log Files");
             window.Show();
         }
+
+        private static void OpenLogFile(string logFilePath)
+        {
+#if UNITY_2019_2_OR_NEWER
+            CodeEditor.CurrentEditor.OpenProject(logFilePath);
+#else
+            Process.Start(logFilePath);
+#endif
+        }
+
 
         private static void DrawLogFileItem(string name, string logFilePath)
         {
@@ -35,7 +48,7 @@ namespace PumpEditor
 
                 if (GUILayout.Button("Open file"))
                 {
-                   Process.Start(logFilePath);
+                   OpenLogFile(logFilePath);
                 }
             }
         }
