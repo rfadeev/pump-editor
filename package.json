@@ -1,7 +1,7 @@
 {
     "name": "com.rfadeev.pumpeditor",
     "displayName": "Pump Editor",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Collection of Unity editor helpers to boost productivity.",
     "author": {
         "name": "Roman Fadeev",
