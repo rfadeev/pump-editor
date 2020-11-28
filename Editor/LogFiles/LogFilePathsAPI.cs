@@ -21,7 +21,7 @@ namespace PumpEditor
             WINDOWS_EDITOR_LOG_PREV_PATH = Path.Combine(editorLogsDirectoryPath, "Editor-prev.log");
             // While Unity docs state file name as Player.log, it seems to be an error in the docs.
             var appDataLocalLowPath = Path.GetFullPath(Path.Combine(appDataLocalPath, "..", "LocalLow"));
-            WINDOWS_PLAYER_LOG_PATH = Path.Combine(appDataLocalLowPath, "{1}", "{2}", "output_log.txt");
+            WINDOWS_PLAYER_LOG_PATH = Path.Combine(appDataLocalLowPath, "{0}", "{1}", "output_log.txt");
         }
 
         public static string GetPackageManagerLogPath()
@@ -41,7 +41,7 @@ namespace PumpEditor
 
         public static string GetPlayerLogPath()
         {
-            return String.Format(WINDOWS_PLAYER_LOG_PATH, Environment.UserName, Application.companyName, Application.productName);
+            return String.Format(WINDOWS_PLAYER_LOG_PATH, Application.companyName, Application.productName);
         }
     }
 }
