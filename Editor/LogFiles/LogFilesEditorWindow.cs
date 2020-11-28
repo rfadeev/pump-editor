@@ -15,7 +15,8 @@ namespace PumpEditor
         private static void ShowWindow()
         {
             var window = EditorWindow.GetWindow<LogFilesEditorWindow>();
-            window.titleContent = new GUIContent("Log Files");
+            var icon = EditorGUIUtility.Load("UnityEditor.ConsoleWindow") as Texture2D;
+            window.titleContent = new GUIContent("Log Files", icon);
             window.Show();
         }
 
@@ -27,7 +28,6 @@ namespace PumpEditor
             Process.Start(logFilePath);
 #endif
         }
-
 
         private static void DrawLogFileItem(string name, string logFilePath)
         {
@@ -55,15 +55,29 @@ namespace PumpEditor
 
         private static void EditorLogsGUI()
         {
-            EditorGUILayout.LabelField("Package Manager", EditorStyles.boldLabel);
-            DrawLogFileItem("Package manager log", LogFilePathsAPI.GetPackageManagerLogPath());
+            using (new EditorGUILayout.VerticalScope((GUI.skin.box)))
+            {
+                EditorGUILayout.LabelField("Package Manager", EditorStyles.boldLabel);
+                DrawLogFileItem("Package manager log", LogFilePathsAPI.GetPackageManagerLogPath());
+            }
 
-            EditorGUILayout.LabelField("Editor", EditorStyles.boldLabel);
-            DrawLogFileItem("Editor log", LogFilePathsAPI.GetEditorLogPath());
-            DrawLogFileItem("Editor log prev", LogFilePathsAPI.GetEditorLogPrevPath());
+            EditorGUILayout.Space();
 
-            EditorGUILayout.LabelField("Player", EditorStyles.boldLabel);
-            DrawLogFileItem("Player log", LogFilePathsAPI.GetPlayerLogPath());
+            using (new EditorGUILayout.VerticalScope((GUI.skin.box)))
+            {
+                EditorGUILayout.LabelField("Editor", EditorStyles.boldLabel);
+                DrawLogFileItem("Editor log", LogFilePathsAPI.GetEditorLogPath());
+                EditorGUILayout.Space();
+                DrawLogFileItem("Editor log prev", LogFilePathsAPI.GetEditorLogPrevPath());
+            }
+
+            EditorGUILayout.Space();
+
+            using (new EditorGUILayout.VerticalScope((GUI.skin.box)))
+            {
+                EditorGUILayout.LabelField("Player", EditorStyles.boldLabel);
+                DrawLogFileItem("Player log", LogFilePathsAPI.GetPlayerLogPath());
+            }
         }
 
         private void OnGUI()
