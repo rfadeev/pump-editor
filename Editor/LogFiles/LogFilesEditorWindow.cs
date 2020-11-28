@@ -77,6 +77,8 @@ namespace PumpEditor
             {
                 EditorGUILayout.LabelField("Player", EditorStyles.boldLabel);
                 DrawLogFileItem("Player log", LogFilePathsAPI.GetPlayerLogPath());
+                EditorGUILayout.Space();
+                DrawLogFileItem("Player log prev", LogFilePathsAPI.GetPlayerLogPrevPath());
             }
         }
 
