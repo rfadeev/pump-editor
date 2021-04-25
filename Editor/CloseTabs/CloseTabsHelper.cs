@@ -9,6 +9,7 @@ namespace PumpEditor
     public static class CloseTabsHelper
     {
         private const string CloseOtherTabsText = "Close Other Tabs";
+        private const string CloseTabsToTheRigthText = "Close Tabs to the Right";
 
         public static void AddCloseOtherTabsItem(EditorWindow window, GenericMenu menu)
         {
@@ -19,6 +20,18 @@ namespace PumpEditor
             else
             {
                 menu.AddItem(new GUIContent(CloseOtherTabsText), false, () => OnCloseOtherTabs(window));
+            }
+        }
+
+        public static void AddCloseTabsToTheRightItem(EditorWindow window, GenericMenu menu)
+        {
+            if (window.maximized)
+            {
+                menu.AddDisabledItem(new GUIContent(CloseTabsToTheRigthText));
+            }
+            else
+            {
+                menu.AddItem(new GUIContent(CloseTabsToTheRigthText), false, () => OnCloseTabsToTheRight(window));
             }
         }
 
@@ -46,6 +59,21 @@ namespace PumpEditor
             // Store panes to remove in a separate list since panes gets modified by EditorWindow.Close method
             // and throws "InvalidOperationException: Collection was modified; enumeration operation may not execute."
             var panesToRemove = panes.FindAll(x => !ReferenceEquals(x, window));
+
+            foreach (var pane in panesToRemove)
+            {
+                pane.Close();
+            }
+        }
+
+        private static void OnCloseTabsToTheRight(EditorWindow window)
+        {
+            var panes = GetAllPanes(window);
+            // Store panes to remove in a separate list since panes gets modified by EditorWindow.Close method
+            // and throws "InvalidOperationException: Collection was modified; enumeration operation may not execute."
+            var index = panes.FindIndex(x => ReferenceEquals(x, window));
+            var removeIndex = index + 1;
+            var panesToRemove = panes.GetRange(removeIndex, panes.Count - removeIndex);
 
             foreach (var pane in panesToRemove)
             {

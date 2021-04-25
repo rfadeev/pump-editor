@@ -7,6 +7,7 @@ namespace PumpEditor
         public virtual void AddItemsToMenu(GenericMenu menu)
         {
             CloseTabsHelper.AddCloseOtherTabsItem(this, menu);
+            CloseTabsHelper.AddCloseTabsToTheRightItem(this, menu);
         }
     }
 }
