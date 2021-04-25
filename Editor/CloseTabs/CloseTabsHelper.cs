@@ -19,7 +19,16 @@ namespace PumpEditor
             }
             else
             {
-                menu.AddItem(new GUIContent(CloseOtherTabsText), false, () => OnCloseOtherTabs(window));
+                var panes = GetAllPanes(window);
+                // Disable close tabs item if editor window is the only tab.
+                if (panes.Count == 1)
+                {
+                    menu.AddDisabledItem(new GUIContent(CloseOtherTabsText));
+                }
+                else
+                {
+                    menu.AddItem(new GUIContent(CloseOtherTabsText), false, () => OnCloseOtherTabs(window, panes));
+                }
             }
         }
 
@@ -31,7 +40,16 @@ namespace PumpEditor
             }
             else
             {
-                menu.AddItem(new GUIContent(CloseTabsToTheRigthText), false, () => OnCloseTabsToTheRight(window));
+                var panes = GetAllPanes(window);
+                // Disable close tabs item if editor window is the rightest tab.
+                if (panes.IndexOf(window) == panes.Count - 1)
+                {
+                    menu.AddDisabledItem(new GUIContent(CloseTabsToTheRigthText));
+                }
+                else
+                {
+                    menu.AddItem(new GUIContent(CloseTabsToTheRigthText), false, () => OnCloseTabsToTheRight(window, panes));
+                }
             }
         }
 
@@ -53,9 +71,8 @@ namespace PumpEditor
             return mPanes;
         } 
 
-        private static void OnCloseOtherTabs(EditorWindow window)
+        private static void OnCloseOtherTabs(EditorWindow window, List<EditorWindow> panes)
         {
-            var panes = GetAllPanes(window);
             // Store panes to remove in a separate list since panes gets modified by EditorWindow.Close method
             // and throws "InvalidOperationException: Collection was modified; enumeration operation may not execute."
             var panesToRemove = panes.FindAll(x => !ReferenceEquals(x, window));
@@ -66,9 +83,8 @@ namespace PumpEditor
             }
         }
 
-        private static void OnCloseTabsToTheRight(EditorWindow window)
+        private static void OnCloseTabsToTheRight(EditorWindow window, List<EditorWindow> panes)
         {
-            var panes = GetAllPanes(window);
             // Store panes to remove in a separate list since panes gets modified by EditorWindow.Close method
             // and throws "InvalidOperationException: Collection was modified; enumeration operation may not execute."
             var index = panes.FindIndex(x => ReferenceEquals(x, window));
