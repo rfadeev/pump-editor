@@ -22,7 +22,7 @@ namespace PumpEditor
             }
         }
 
-        private static void OnCloseOtherTabs(EditorWindow window)
+        private static List<EditorWindow> GetAllPanes(EditorWindow window)
         {
             var editorWindowType = typeof(EditorWindow);
             FieldInfo mParentField = editorWindowType.GetField("m_Parent", BindingFlags.Instance | BindingFlags.NonPublic);
@@ -37,13 +37,19 @@ namespace PumpEditor
             var mPanesValue = mPanesField.GetValue(parentValue);
 
             var mPanes = (List<EditorWindow>)mPanesValue;
-            // Store panes to remove in a separate list since mPanes gets modified by RemoveTab method
-            // and throws "InvalidOperationException: Collection was modified; enumeration operation may not execute."
-            var mPanesToRemove = mPanes.FindAll(x => !ReferenceEquals(x, window));
+            return mPanes;
+        } 
 
-            foreach (var mPane in mPanesToRemove)
+        private static void OnCloseOtherTabs(EditorWindow window)
+        {
+            var panes = GetAllPanes(window);
+            // Store panes to remove in a separate list since panes gets modified by EditorWindow.Close method
+            // and throws "InvalidOperationException: Collection was modified; enumeration operation may not execute."
+            var panesToRemove = panes.FindAll(x => !ReferenceEquals(x, window));
+
+            foreach (var pane in panesToRemove)
             {
-                mPane.Close();
+                pane.Close();
             }
         }
     }
