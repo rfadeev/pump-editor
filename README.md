@@ -37,6 +37,7 @@ Access Pump Editor editor windows via Unity toolbar: **Window -> Pump Editor**.
 
 Editor windows:
 * [Built-in Define Directives Editor Window](https://github.com/rfadeev/pump-editor/wiki/Built-in-define-directives-editor-window) - view Unity built-in defines values at editor time.
+* [Close tabs](https://github.com/rfadeev/pump-editor/wiki/Close-tabs) - extend your editor windows to support closing tabs.
 * [Compilation Editor Window](https://github.com/rfadeev/pump-editor/wiki/Compilation-Editor-Window) - force Unity to recompile scripts.
 * [Force Reserialize Assets Editor Window](https://github.com/rfadeev/pump-editor/wiki/Force-Reserialize-Assets-Editor-Window) - force reserialize project assets explicitely.
 * [Log Files Editor Window](https://github.com/rfadeev/pump-editor/wiki/Log-files-editor-window) - easily access Unity log files and their paths.
