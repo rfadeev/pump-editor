@@ -39,7 +39,7 @@ Editor windows:
 * [Built-in Define Directives Editor Window](https://github.com/rfadeev/pump-editor/wiki/Built-in-define-directives-editor-window) - view Unity built-in defines values at editor time.
 * [Compilation Editor Window](https://github.com/rfadeev/pump-editor/wiki/Compilation-Editor-Window) - force Unity to recompile scripts.
 * [Force Reserialize Assets Editor Window](https://github.com/rfadeev/pump-editor/wiki/Force-Reserialize-Assets-Editor-Window) - force reserialize project assets explicitely.
-* [Lof Files Editor Window](https://github.com/rfadeev/pump-editor/wiki/Log-files-editor-window) - easily access Unity log files and their paths.
+* [Log Files Editor Window](https://github.com/rfadeev/pump-editor/wiki/Log-files-editor-window) - easily access Unity log files and their paths.
 * [Prefab Variants Editor Window](https://github.com/rfadeev/pump-editor/wiki/Prefab-Variants-Editor-Window) - preview prefab variants inheritance chains as tree view.
 * [Project Settings Select Editor Window](https://github.com/rfadeev/pump-editor/wiki/Project-Settings-Select-Editor-Window) - select project settings to edit in one click.
 * [Save Project As Template Editor Window](https://github.com/rfadeev/pump-editor/wiki/Project-templates-editor-windows) - save current project as template to be used in Unity Hub for new project creation.
