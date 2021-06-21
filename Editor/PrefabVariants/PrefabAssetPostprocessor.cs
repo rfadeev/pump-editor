@@ -19,7 +19,6 @@ namespace PumpEditor
                 var windows = Resources.FindObjectsOfTypeAll<PrefabVariantEditorWindow>();
                 if (windows != null)
                 {
-                    Debug.Assert(windows.Length == 1);
                     foreach (var window in windows)
                     {
                         window.ReloadTreeView();
