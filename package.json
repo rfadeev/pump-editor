@@ -9,5 +9,6 @@
     },
     "dependencies": {
         "com.unity.modules.jsonserialize": "1.0.0"
-    }
+    },
+    "documentationUrl": "https://github.com/rfadeev/pump-editor/wiki"
 }
